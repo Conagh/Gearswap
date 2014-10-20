@@ -38,7 +38,7 @@ AutoAga = 1
 	sets.precast_FastCast = {ammo="Incantor Stone",head="Nahtirah Hat",ear2="Loquacious Earring",
 		body="Anhur Robe",hands="Gendewitha Gages",back="Swith Cape",legs="Artsieq hose",feet="Chelona Boots",waist="Siegel Sash"}
 	
-	sets.precast_Cure = {ammo="Incantor Stone",head="Nahtirah Hat",ear2="Loquacious Earring",
+	sets.precast_Cure = {ammo="Incantor Stone",head="Nahtirah Hat",ear2="Loquacious Earring", waist="Witful Belt",
 		body="Heka's Kalasiris",hands="Gendewitha Gages",back="Pahtli Cape",legs="Orsn. Pantaln. +2",feet="Cure Clogs"}
 	
 	sets.Resting = {main="Chatoyant Staff"}
@@ -81,7 +81,7 @@ AutoAga = 1
 	sets.midcast_BarSpell = {main="Beneficus",sub="Genbu's Shield",ammo="Incantor Stone",
 		head="Orison Cap +2",neck="Colossus's Torque",ear1="Lifestorm Earring",ear2="Loquacious Earring",
 		body="Orison Bliaud +2",hands="Orison Mitts +2",
-		back="Merciful Cape",waist="Olympus Sash",legs="Piety Pantaloons",feet="Orison Duckbills +2"}
+		back="Mending Cape",waist="Olympus Sash",legs="Piety Pantaloons",feet="Orison Duckbills +2"}
 		
 	sets.midcast_Regen = set_combine(sets.midcast_BarSpell,{main="Bolelabunga", legs="Theophany pantaloons",feet="Gendewitha galoshes",body="Piety Briault"})	
 		
@@ -127,7 +127,7 @@ AutoAga = 1
 		body="Nares Saio",hands="",ring1="Icesoul Ring",ring2="Icesoul Ring",
 		back="Twilight Cape",waist="Wanion Belt",legs="Akasha Chaps",feet="Umbani Boots"}
 	
-	sets.midcast_Stoneskin = set_combine(sets.midcast_BarSpell,{main="Benificus",neck="Stone Gorget",waist="Siegel Sash",legs="Haven Hose",Ear1="Earthcry Earring"})
+	sets.midcast_Stoneskin = set_combine(sets.midcast_BarSpell,{main="Beneficus",neck="Stone Gorget",waist="Siegel Sash",legs="Haven Hose",Ear1="Earthcry Earring"})
 	
 	sets.Obi = {}
 	sets.Obi.Light = {waist='Korin Obi',back='Twilight Cape',main='Chatoyant Staff'}
@@ -155,11 +155,11 @@ function precast(spell,action)
 	elseif spell.skill=='Healing Magic' then
 		if T{"Cure", "Cure II", "Cure III", "Cure IV", "Cure V", "Cure VI"}:contains(spell.name) then
 		equip(sets.precast_Cure)
-		end
-		if T{"Curaga", "Curaga II", "Curaga III", "Curaga IV", "Curaga V"}:contains(spell.name) then
+		elseif T{"Curaga", "Curaga II", "Curaga III", "Curaga IV", "Curaga V"}:contains(spell.name) then
 		equip(sets.precast_Cure)
-		end
+		else
 		equip(sets['precast_FastCast'])
+		end
 	elseif spell.skill=='Elemental Magic' and spell.cast_time < 3 then
 		cast_delay(0.1)
 		equip(sets.midcast_ElementalMagic)
@@ -224,9 +224,6 @@ function midcast(spell,action)
 		"Barblizzard","Barthunder","Barthundra"}:contains(spell.name) then 
 			equip (sets['midcast_BarSpell'])
 		elseif T{"Paralyna","Silena","Viruna","Erase","Cursna","Stona","Blindna","Poisona"}:contains(spell.name) then
-			if buffactive.Ionis then
-			equip (sets['midcast_DebuffRemoval_Ionis'])
-			else
 			equip (sets['midcast_DebuffRemoval'])
 				if buffactive['Divine Caress'] then
 					equip (sets['midcast_DebuffRemovalCaress'])
