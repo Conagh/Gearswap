@@ -1,45 +1,43 @@
 function get_sets()
-	send_command('input /macro book 4;wait .1;input /macro set 1') -- Change Default Macro Book Here --
-    timer_reg = {}
-    perp_cycle = false
     sets = {}
          
-    sets.aftercast_Idle_noSub = {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
+    sets.aftercast_Idle_noSub = {main="Lehbrailg +2",sub="",ammo="Incantor Stone",
         head="Nefer Khat",neck="Twilight Torque",ear1="Lifestorm Earring",ear2="Loquacious Earring",
         body="Heka's Kalasiris",hands="Serpentes Cuffs",ring1="Bifrost Ring",ring2="Dark Ring",
         back="Shadow Mantle",waist="Korin Obi",legs="Nares Trews",feet="Serpentes Sabots"}
      
-    sets.aftercast_Idle_Sub = {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
+    sets.aftercast_Idle_Sub = {main="Lehbrailg +2",sub="",ammo="Incantor Stone",
         head="Nefer Khat",neck="Twilight Torque",ear1="Lifestorm Earring",ear2="Loquacious Earring",
         body="Heka's Kalasiris",hands="Serpentes Cuffs",ring1="Bifrost Ring",ring2="Dark Ring",
         back="Shadow Mantle",waist="Korin Obi",legs="Nares Trews",feet="Serpentes Sabots"}
 	
 	sets.aftercast_IdleStun = {main="Apamajas II",sub="Mephitis Grip",ammo="Inacantor Stone",
         head="Nahtirah Hat",neck="Eddy Necklace",ear1="Lifestorm Earring",ear2="Psystorm Earring",
-        body="Hedera Cotehardie",hands="Acad. Bracers",ring1="Sangoma Ring",ring2="Maquette Ring",
-        back="Swith Cape",waist="Witful belt",legs="Artsieq Hose",feet="Peda. Loafers"}
+        body="Hedera Cotehardie",hands="Gendewitha Gages",ring1="Sangoma Ring",ring2="Maquette Ring",
+        back="Swith Cape",waist="Goading Belt",legs="Artsieq Hose",feet="Peda. Loafers"}
 
-	sets.ExtremeStun = {main="Lehbrailg +2",sub="Mephitis Grip",ammo="Inacantor Stone",
-        head="Peda. M.Board +1",neck="Eddy Necklace",ear1="Lifestorm Earring",ear2="Psystorm Earring",
-        body="Hedera Cotehardie",hands="Acad. Bracers",ring1="Sangoma Ring",ring2="Maquette Ring",
-        back="Swith Cape",waist="Witful belt",legs="Artsieq Hose",feet="Peda. Loafers"}
+		sets.ExtremeStun = {main="Lehbrailg +2",sub="Mephitis Grip",ammo="Inacantor Stone",
+        head="Nahtirah Hat",neck="Eddy Necklace",ear1="Lifestorm Earring",ear2="Psystorm Earring",
+        body="Hedera Cotehardie",hands="Gendewitha Gages",ring1="Sangoma Ring",ring2="Maquette Ring",
+        back="Swith Cape",waist="Goading Belt",legs="Artsieq Hose",feet="Peda. Loafers"}
 
-	sets.aftercast_IdleNight = {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
+		
+	sets.aftercast_IdleNight = {main="Lehbrailg +2",sub="",ammo="Incantor Stone",
 		head="Nefer Khat",neck="Twilight Torque",ear1="Merman's Earring",ear2="Coral Earring",
 		body="Heka's Kalasiris",hands="Serpentes Cuffs",ring1="Dark ring",ring2="Patricius Ring",
 		back="Cheviot Cape",waist="Siegel Sash",legs="Nares Trews",feet="Theo. Duckbills +1"}
 	
-	sets.aftercast_Idle119 = {main="Terra's Staff",ammo="Incantor Stone",
-		head="Gendewitha Caubeen",neck="Twilight Torque",ear1="Merman's Earring",ear2="Coral Earring",
+	sets.aftercast_Idle119 = {main="Lehbrailg +2",ammo="Incantor Stone",
+		head="Hagondes Hat",neck="Twilight Torque",ear1="Merman's Earring",ear2="Coral Earring",
 		body="Hagondes Coat",hands="Gendewitha Gages",ring1="Dark ring",ring2="Patricius Ring",
 		back="Cheviot Cape",waist="Siegel Sash",legs="Artsieq Hose",feet="Gendewitha Galoshes"}
 	
-	sets.aftercast_IdleDay = {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
+	sets.aftercast_IdleDay = {main="Lehbrailg +2",sub="",ammo="Incantor Stone",
 		head="Nefer Khat",neck="Twilight Torque",ear1="Merman's Earring",ear2="Coral Earring",
 		body="Heka's Kalasiris",hands="Lurid Mitts",ring1="Dark ring",ring2="Patricius Ring",
 		back="Cheviot Cape",waist="Siegel Sash",legs="Nares Trews",feet="Serpentes Sabots"}
 	
-    sets.aftercast_Move = {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
+    sets.aftercast_Move = {main="Lehbrailg +2",sub="",ammo="Incantor Stone",
         head="Nefer Khat",neck="Twilight Torque",ear1="Lifestorm Earring",ear2="Loquacious Earring",
         body="Heka's Kalasiris",hands="Serpentes Cuffs",ring1="Bifrost Ring",ring2="Dark Ring",
         back="Shadow Mantle",waist="Korin Obi",legs="Nares Trews",feet="Desert boots"}
@@ -47,7 +45,7 @@ function get_sets()
     sets.aftercast_Idle = sets.aftercast_Idle_noSub
          
     sets.precast_FastCast = {ammo="Incantor Stone",head="Nahtirah Hat",ear2="Loquacious Earring",
-        body="Anhur Robe",hands="Gendewitha Gages",back="Swith Cape",legs="Artsieq hose",feet="Peda. Loafers"}
+        body="Anhur Robe",hands="Gendewitha Gages",back="Swith Cape",legs="Artseiq hose",feet="Peda. Loafers"}
      
     sets.Resting = {main="Chatoyant Staff",sub="Mephitis Grip",
 		head="Nahtirah Hat",neck="Twilight Torque",ear1="Lifestorm Earring",ear2="Loquacious Earring",
@@ -66,9 +64,9 @@ function get_sets()
 		ammo="Savant's Treatise",
 		head="Hagondes Hat",
 		body="Hagondes Coat",
-		hands="Hagondes Cuffs +1",
+		hands= "Hagondes Cuffs +1",
 		legs="Hagondes Pants +1",
-		feet="Umbani Boots",
+		feet="Umbani boots",
 		neck="Eddy Necklace",
 		waist="Aswang Sash",
 		left_ear="Friomisi Earring",
@@ -83,38 +81,33 @@ function get_sets()
 		ammo="Savant's Treatise",
 		head="Hagondes Hat",
 		body="Hagondes Coat",
-		hands="Hagondes Cuffs +1",
-		legs="Artsieq Hose",
-		feet="Umbani Boots",
+		hands= "Hagondes Cuffs +1",
+		legs="Hagondes Pants +1",
+		feet="Umbani boots",
 		neck="Eddy Necklace",
 		waist="Aswang Sash",
-		left_ear="Lifestorm Earring",
-		right_ear="Psystorm Earring",
+		left_ear="Friomisi Earring",
+		right_ear="Hecate's Earring",
 		left_ring="Icesoul Ring",
 		right_ring="Sangoma Ring",
 		back="Toro Cape"}
 	
-    sets.midcast_DarkMagic = {main="Lehbrailg +2",sub="Arbuda Grip",ammo="Hasty Pinion",
+    sets.midcast_DarkMagic = {main="Chatoyant Staff",sub="Arbuda Grip",ammo="Hasty Pinion",
         head="Appetence Crown",neck="Aesir Torque",ear1="Hirudinea Earring",ear2="Loquacious Earring",
         body="Hedera Cotehardie",hands="Ayao's Gages",ring1="Balrahn's Ring",ring2="Excelsis Ring",
-        back="Merciful Cape",waist="Goading Belt",legs="Auspex Slops",feet="Umbani Boots"}
+        back="Merciful Cape",waist="Goading Belt",legs="Auspex Slops",feet="Hag. Sabots +1"}
      
     sets.midcast_EnfeeblingMagic = {main="Lehbrailg +2",sub="Mephitis Grip",ammo="Savant's Treatise",
-        head="Artsieq Hat",neck="Imbodla Necklace",ear1="Lifestorm Earring",ear2="Psystorm Earring",
-        body="Hagondes Coat",hands="Lurid Mitts",ring1="Sangoma Ring",ring2="Maquette Ring",
-        back="Refraction Cape",waist="Ornate ROpe",legs="Artsieq hose",feet="Artsieq Boots"}
+        head="Nahtirah Hat",neck="Eddy Necklace",ear1="Lifestorm Earring",ear2="Psystorm Earring",
+        body="Hedera Cotehardie",hands="Lurid Mitts",ring1="Sangoma Ring",ring2="Maquette Ring",
+        back="Refraction Cape",waist="Cascade Belt",legs="Artseiq hose",feet="Hag. Sabots +1"}
      
     sets.midcast_Impact = {main="Lehbrailg +2",sub="Wizzan Grip",ammo="Witchstone",
         neck="Eddy Necklace",ear1="Hecate's Earring",ear2="Novio Earring",
         hands="Yaoyotl Gloves",ring1="Strendu Ring",ring2="Icesoul Ring",body="Hagondes Coat",
-        back="Searing Cape",waist="Maniacus Sash",legs="Hagondes Pants",feet="Umbani Boots"}
+        back="Searing Cape",waist="Maniacus Sash",legs="Hagondes Pants",feet="Hag. Sabots +1"}
      
     sets.midcast_Embrava = {main="Kirin's Pole",sub="Fulcio Grip",ammo="Savant's Treatise",
-        head="Svnt. Bonnet +2",neck="Colossus's Torque",ear1="Lifestorm Earring",ear2="Loquacious Earring",
-        body="Anhur Robe",hands="Savant's Bracers +2",
-        back="Merciful Cape",waist="Cascade Belt",legs="Shedir Seraweels",feet="Rubeus Boots"}
-		
-	sets.midcast_Regen = {main="Bolelabunga",ammo="Savant's Treatise",
         head="Svnt. Bonnet +2",neck="Colossus's Torque",ear1="Lifestorm Earring",ear2="Loquacious Earring",
         body="Anhur Robe",hands="Savant's Bracers +2",
         back="Merciful Cape",waist="Cascade Belt",legs="Shedir Seraweels",feet="Rubeus Boots"}
@@ -122,7 +115,7 @@ function get_sets()
     sets.midcast_EnhancingMagic = {main="Kirin's Pole",sub="Fulcio Grip",ammo="Incantor Stone",
         head="Svnt. Bonnet +2",neck="Colossus's Torque",ear1="Lifestorm Earring",ear2="Loquacious Earring",
         body="Anhur Robe",hands="Gendewitha Gages",
-        back="Swith Cape",waist="Ninurta's Sash",legs="Artsieq hose",feet="Peda. Loafers"}
+        back="Swith Cape",waist="Ninurta's Sash",legs="Artseiq hose",feet="Peda. Loafers"}
      
     sets.precast_Stun = {main="Apamajas II",sub="Mephitis Grip",ammo="Inacantor Stone",
         head="Nahtirah Hat",neck="Eddy Necklace",ear1="Lifestorm Earring",ear2="Psystorm Earring",
@@ -130,7 +123,7 @@ function get_sets()
         back="Swith Cape",waist="Goading Belt",legs="Artsieq Hose",feet="Peda. Loafers"}
          
      
-    sets.midcast_Cure = {main="Tamaxchi",sub="genbu's Shield",head="Hyksos Khat +1",neck="Healing Torque",
+    sets.midcast_Cure = {main="Tamaxchi",sub="",head="Hyksos Khat +1",neck="Healing Torque",
     body="Heka's Kalasiris",hands="Bokwus Gloves",back="Oretanis's Cape",legs="Scholar's Pants",
 	feet="Peda. Loafers",ring1="Sirona's Ring",ring2="Ephedra Ring",ear1="Beatific Earring",
 	Ear2="Lifestorm Earring"}
@@ -138,7 +131,7 @@ function get_sets()
     sets.midcast_Helix = {main="Lehbrailg +2",sub="Wize Grip",ammo="Witchstone",
         head="Hagondes Hat",neck="Stoicheion Medal",ear1="Hecate's Earring",ear2="Friomisi Earring",
         body="Hagondes Coat",hands="Hagondes Cuffs +1",ring1="Maquette Ring",ring2="Dark Ring",
-        back="Toro Cape",waist="Maniacus Sash",legs="Hagondes Pants +1",feet="Umbani Boots"}
+        back="Toro Cape",waist="Maniacus Sash",legs="Hagondes Pants +1",feet="Hag. Sabots +1"}
      
     sets.midcast_Stoneskin = {main="Kirin's Pole",neck="Stone Gorget",waist="Siegel Sash",legs="Shedir Seraweels"}
      
@@ -169,14 +162,8 @@ end
  
 function precast(spell,action)
     if spell.skill=='Elemental Magic' then
-		if buffactive.darkarts or buffactive.Addendumblack then
-        cast_delay(0.1)
-        set_combine(sets['precast_FastCast'],{
-			head="Peda. M.Board +1",})		
-		else
         cast_delay(0.1)
         equip(sets['precast_FastCast'])	
-		end
     elseif spell.english == 'Stun' then
         cast_delay(0.1)
         equip(sets['precast_Stun'])
@@ -190,18 +177,6 @@ function precast(spell,action)
         cast_delay(0.1)
     end
 end
- 
-function pretarget(spell)
-    if spell.name == 'Regen V' and spell.target.type and spell.target.type == 'PLAYER' and not buffactive.perpetuance and not spell.target.charmed and not pianissimo_cycle then
-        cancel_spell()
-        perp_cycle = true
-        send_command('input /ja "Perpetuance" <me>;wait 1.5;input /ma "'..spell.name..'" '..spell.target.name..';')
-        return
-    end
-    if spell.name ~= 'Perpetuance' then
-        perp_cycle = false
-    end
-end 
  
 function midcast(spell,action)
     if string.find(spell.english,'Cur') then
@@ -271,14 +246,14 @@ function midcast(spell,action)
             equip ({feet="Savant's Loafers +2"})
         end
     elseif spell.skill=="Enfeebling Magic" then
-		equip(sets.midcast_EnfeeblingMagic)
+		equip(sets.midcast_ElementalMagic[sets.midcast_ElementalMagic.index[midcast_ElementalMagic_ind]])
 
 	 
 	 
     elseif spell.english == 'Stoneskin' then
         equip(sets['midcast_Stoneskin'])
     elseif spell.skill == 'Enhancing Magic' then
-        if spell.english == 'Embrava' then
+        if spell.english == 'Embrava' or spell.english == 'Regen V' then
             equip(sets['midcast_Embrava'])
             if not buffactive.perpetuance then
                 add_to_chat(8,'--------- Perpetuance is down ---------')
@@ -289,38 +264,17 @@ function midcast(spell,action)
             if not buffactive.penury then
                 add_to_chat(8,'--------- Penury is down ---------')
             end
-        elseif spell.english == 'Regen V' then
-             equip(sets['midcast_Regen'])
-				add_to_chat(8,'--------- Regen Test---------')
-            if not buffactive.perpetuance then
-                add_to_chat(8,'--------- Perpetuance is down ---------')
-            end
-            if not buffactive.accession then
-                add_to_chat(8,'--------- Accession is down ---------')
-            end
-            if not buffactive.penury then
-                add_to_chat(8,'--------- Penury is down ---------')
-            end
-		
-        elseif buffactive.perpetuance then
+        end
+        if buffactive.perpetuance then
             equip(sets['midcast_EnhancingMagic'],{hands="Savant's Bracers +2"})
         else
             equip(sets['midcast_EnhancingMagic'])
         end
 	elseif spell.english == 'Stun' then
-		if buffactive.haste and buffactive.march then 
+		if Armor == "Lehbrailg" then 
 			equip(sets.ExtremeStun)
-		elseif Armor =="Lehbrailg" and buffactive.alacrity then
-			equip(sets.ExtremeStun)
-		elseif buffactive.haste and not buffactive.march then
-					equip(sets.aftercast_IdleStun)
-			send_command('input /p -------March is Down-------')
-		elseif buffactive.march and not buffactive.haste then
-					equip(sets.aftercast_IdleStun)
-			send_command('input /p -------Haste is Down-------')			
 		else
 			equip(sets.aftercast_IdleStun)
-			send_command('input /p -------No Magic Haste [ GET IT SORTED ]-------  Stunning Target is gunna suck')
 		end
     end
      
@@ -353,8 +307,6 @@ function status_change(new,action)
 			equip(sets.aftercast_Idle119)
 			elseif Armor == 'Stun' then
 			equip(sets.aftercast_IdleStun)
-			elseif Armor == 'Lehbrailg' then
-			equip(sets.ExtremeStun)
 			else
                 Idle()
 			end
