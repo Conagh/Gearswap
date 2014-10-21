@@ -173,7 +173,7 @@ function pretarget(spell)
 end 
 
 Cures 									= S{'Cure','Cure II','Cure III','Cure IV','Cure V','Cure VI'}
-Curagas 								= S{'Curaga','Curaga II','Curaga III','Curaga IV','Curaga V'}
+Curagas 								= S{'Curaga','Curaga II','Curaga III','Curaga IV','Curaga V','Cura','Cura II','Cura III'}
 Lyna									= S{'Paralyna','Silena','Viruna','Erase','Cursna','Stona','Blindna','Poisona'}
 Barspells								= S{'Barfira','Barfire','Barwater','Barwatera','Barstone','Barstonra','Baraero','Baraera','Barblizzara','Barblizzard','Barthunder','Barthundra'}
 Turtle									= S{'Protectra V','Shellra V'}
