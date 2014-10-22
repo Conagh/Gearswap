@@ -25,7 +25,7 @@ AutoAga = 1
 		body="Heka's Kalasiris",hands="Serpentes Cuffs",ring1="Sirona's ring",ring2="Aquasoul Ring",
 		back="Cheviot Cape",waist="Siegel Sash",legs="Nares Trews",feet="Desert Boots"}
 	
-	sets.aftercast.resting 				= {main="Chatoyant Staff",feet="Chelon Boots"}
+	sets.aftercast.resting 				= {main="Chatoyant Staff",feet="Chelona Boots"}
 	
 	
 	sets.precast 						= {}
@@ -124,6 +124,10 @@ AutoAga = 1
 			ear1="Friomisi Earring",ear2="Hecate's Earring",body="Bokwus Robe",hands="Yaoyotl Gloves",ring1="Aquasoul Ring",ring2="Songoma Ring",
 			back="Toro Cape",waist="Aswang Sash",legs="Theophany Pantaloons",feet="Weath. Souliers +1"}
 	
+	sets.midcast.divine.banish			= {main="Lehbrailg +2",sub="Mephitis Grip",head="Nahtirah Hat",neck="Eddy Necklace",
+			ear1="Friomisi Earring",ear2="Hecate's Earring",body="Bokwus Robe",hands="Yaoyotl Gloves",ring1="Aquasoul Ring",ring2="Songoma Ring",
+			back="Toro Cape",waist="Aswang Sash",legs="Theophany Pantaloons",feet="Weath. Souliers +1"}
+			
 	sets.midcast.divine.repose			= {ammo="Kalboron Stone",
 		main="Lehbrailg +2",sub="Mephitis Grip",head="Artsieq Hat",body="Theo. Briault +1",hands="Lurid Mitts",legs="Artsieq Hose",feet="Theo. Duckbills +1",
 		neck="Imbodla Necklace",waist="Ovate Rope",left_ear="Lifestorm Earring",right_ear="Psystorm Earring",left_ring="Maquette Ring",right_ring="Sangoma Ring",
@@ -180,7 +184,8 @@ Turtle									= S{'Protectra V','Shellra V'}
 Cursna									= S{'Cursna'}
 Regens									= S{'Regen','Regen II','Regen III','Regen IV','Regen V'}
 Enhanced								= S{'Flurry','Haste','Refresh'}
-Divinity								= S{'Banish','Banish II','Banish III','Banishga','Banishga II','Holy','Holy II'}
+Banished								= S{'Banish','Banish II','Banish III','Banishga','Banishga II'}
+Smited									= S{'Holy','Holy II'}
 Reposed									= S{'Repose','Flash'}
 Potency									= S{'Slow','Paralyze'}
 Defense									= S{'Stoneskin'}
@@ -212,25 +217,25 @@ end
 function midcast(spell,action)
 	if spell.skill =='Healing Magic' then
 		if Cures:contains(spell.name) then
-			if  world.day =='Lightsday' or  world.weather_element == 'Light'  or Buffactive == 'Aurorastorm' then
+			if  world.day =='Lightsday' or  world.weather_element == 'Light'  or buffactive == 'Aurorastorm' then
 				equip(sets.midcast.healing.weather)
 			else
 				equip(sets.midcast.healing.cure)
 			end
 		elseif Curagas:contains(spell.name) then
-			if  world.day =='Lightsday' or  world.weather_element == 'Light'  or Buffactive == 'Aurorastorm' then
+			if  world.day =='Lightsday' or  world.weather_element == 'Light'  or buffactive == 'Aurorastorm' then
 				equip(sets.midcast.healing.weather)
 			else
 				equip(sets.midcast.healing.curaga)
 			end
 		elseif Lyna:contains(spell.name) then
-			if Buffactive['Divine Caress'] then
+			if buffactive['Divine Caress'] then
 				equip(sets.midcast.healing.caress)
 			else
 				equip(sets.midcast.healing.lyna)
 			end
 		elseif Cursna:contains(spell.name) then
-			if Buffactive['Divine Caress'] then
+			if buffactive['Divine Caress'] then
 			equip(sets.midcast.healing.cursnacaress)
 			else
 			equip(sets.midcast.healing.cursna)
@@ -253,7 +258,9 @@ function midcast(spell,action)
 			equip(sets.midcast.enhancing.raw)
 		end
 	elseif spell.skill =='Divine Magic' then
-		if Divinity:contains(spell.name) then
+		if Banished:contains(spell.name) then
+			equip(sets.midcast.divine.banish)
+		elseif Smited:contains(spell.name) then
 			equip(sets.midcast.divine.holy)
 		elseif Reposed:contains(spell.name) then
 			equip(sets.midcast.divine.repose)
