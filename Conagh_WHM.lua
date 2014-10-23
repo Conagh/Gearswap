@@ -1,10 +1,8 @@
 function get_sets()
 send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default Macro Book Here --
-	--Notes: AutoAga is what was once known as a Variable, we control this variable using a custom toggle command, spellcast used to use trigger spells--
 AutoAga = 1
+Sublimation = 1
 		Armor = 'None'
-		
-	--Aftercast: These sets are equipped after you finish casting (within 0.01 seconds of receiving the incoming packet--	
 		
 	sets.aftercast 						= {}
 		
@@ -23,15 +21,13 @@ AutoAga = 1
 		body="Heka's Kalasiris",hands="Lurid Mitts",ring1="Dark ring",ring2="Patricius Ring",
 		back="Cheviot Cape",waist="Siegel Sash",legs="Nares Trews",feet="Serpentes Sabots"}
 			
-	sets.aftercast.move					= {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
+	sets.aftercast.move				= {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
 		head="Nefer Khat",neck="Twilight Torque",ear1="Lifestorm Earring",ear2="Loquacious Earring",
 		body="Heka's Kalasiris",hands="Serpentes Cuffs",ring1="Sirona's ring",ring2="Aquasoul Ring",
 		back="Cheviot Cape",waist="Siegel Sash",legs="Nares Trews",feet="Desert Boots"}
 	
 	sets.aftercast.resting 				= {main="Chatoyant Staff",feet="Chelona Boots"}
 	
-	
-	--Precast: These sets are equipped before casting and are broken down into the main types of cast time down gear --
 	
 	sets.precast 						= {}
 	
@@ -56,9 +52,6 @@ AutoAga = 1
 			feet="Chelona Boots",waist="Witful Belt",ring2="lebeche Ring"}
 	
 	
-	-- Midcast: These sets equip immediately after you start casting the spell, and in the event you get an instant cast proc, these still equip in time--
-	-- Note: Swapping gear after instant cast is normally impossible but Gearswap Allow's this--
-	
 	sets.midcast						= {}
 	
 	sets.midcast.healing 				= {}
@@ -78,7 +71,8 @@ AutoAga = 1
 	sets.midcast.healing.cursnacaress 		= {ammo="Incantor Stone",head="Orison Cap +2",neck="Malison Medallion",ear1="Loquacious Earring",
 			ear2="Enchntr. Earring +1",body="Hedera Cotehardie",hands="Orison Mitts +2",ring1="Ephedra Ring",ring2="Ephedra Ring",
 			back="Mending Cape",waist="Witful Belt",legs="Artsieq Hose",feet="Gende. Galoshes"}
-	
+
+			
 	sets.midcast.healing.curaga 		= {ammo="Incantor Stone",
 		main="Tamaxchi",sub="Genbu's Shield",head="Gende. Caubeen",body="Theo. Briault +1",hands="Theo. Mitts +1",legs="Orsn. Pantaln. +2",
 		feet="Piety Duckbills +1",neck="Nuna Gorget +1",waist="Cascade Belt",ear2="Cmn. Earring",ear1="Lifestorm Earring",left_ring="Sirona's Ring",
@@ -166,8 +160,6 @@ AutoAga = 1
 			back="Toro Cape",waist="Aswang Sash",legs="Gendewitha Spats",feet="Weath. Souliers +1"}
 
 	
-	--Due to the JA rule in the below sets it will always equip any rule determined in here is laid out like sets.ja['NAME'] replacing name for the JA name--
-	--Capitals are important--
 	
 	sets.JA 							= {}
 	
@@ -185,9 +177,6 @@ function pretarget(spell)
     end
 end 
 
---A personal favourite of mind and not often used, what was referred to as the old Meta Tables in Spellcast--
---These allow you to group an entire list of spells under a group name, which allows you to do very easy updates and amend these groups--
-
 Cures 									= S{'Cure','Cure II','Cure III','Cure IV','Cure V','Cure VI'}
 Curagas 								= S{'Curaga','Curaga II','Curaga III','Curaga IV','Curaga V','Cura','Cura II','Cura III'}
 Lyna									= S{'Paralyna','Silena','Viruna','Erase','Cursna','Stona','Blindna','Poisona'}
@@ -203,11 +192,12 @@ Potency									= S{'Slow','Paralyze'}
 Defense									= S{'Stoneskin'}
 
 
---Here you can see if "GroupName:contain" this is why the set seems very simple and easy to update as it all refers to groups and tables and each is named according to their role --
-
-
 function precast(spell,action)
 	if spell.type == "JobAbility" then
+	    if spell.type == 'JobAbility' and windower.ffxi.get_ability_recasts()[spell.recast_id] > 0 then
+		cancel_spell()
+		return
+		end
 		if sets.JA[spell.english] then
 			equip(sets.JA[spell.english])
 		end
@@ -295,18 +285,29 @@ function midcast(spell,action)
 	end
 end
 
---Here is the Aftercast rule, it checks if you are in 119 g(PDT set) and Autoswaps you to that rather than running normal idle rules so you don't get stomped--
-
 function aftercast(spell,action)
 			if Armor == '119' then
 			equip(sets.aftercast.defense)
 			else
                 Idle()
 			end
+			if buffactive['Sublimation: Complete'] and player.mpp < 75 and player.mpp > 25 then
+				add_to_chat(8,'Sublimation Completed: MP Mid Range')
+				if Sublimation == 1 then
+					windower.send_command('@wait 2;input /ja "Sublimation" <me>')
+				end
+			elseif buffactive['Sublimation: Complete'] and player.mpp < 25 then
+				add_to_chat(8,'Sublimation Completed: MP Danger Zone')
+				if Sublimation == 1 then
+					windower.send_command('@wait 2;input /ja "Sublimation" <me>')
+				end
+			elseif buffactive['Sublimation: Complete'] and player.mpp > 75 then 
+				add_to_chat(158,'Sublimation Completed: MP Safe Zone')
+			elseif not buffactive['Sublimation: Complete'] and not buffactive['Sublimation: Activated'] and Sublimation == 1 then
+				windower.send_command('@wait 2;input /ja "Sublimation" <me>')
+			
+			end	
 end
-
---This checks for changes in your status I.E if you had someone else cast Sandstorm on you it would then change also or ignore it and updates everytime a buff--
---changes on your character--
 
 function status_change(new,action)
 	if new == 'Idle' then
@@ -326,8 +327,6 @@ function buff_change(buff,gain_or_loss)
         end
 end
 
---Here's the Idle rule referred to above--
-
 function Idle()
 	if buffactive['Sandstorm'] then
 		equip(sets.aftercast.move)
@@ -338,17 +337,12 @@ function Idle()
 	end
 end
 
---Pet rules cos OCD--
-
 function pet_midcast(spell,action)
 end
 
 function pet_aftercast(spell,action)
 end
 
-
---Self Commands are the toggles I referred to so "/console gs c C15" to macro the Auto Aga rules for example.--
---Caps in your POL macro's are important so don't forget them--
 
 function self_command(command)
 	if command == 'C15' then -- MDT Toggle --
@@ -361,13 +355,23 @@ function self_command(command)
 		end
 		status_change(player.status)
 		
-			elseif command == 'A10' then -- Aga Toggle --
+	elseif command == 'A10' then -- Aga Toggle --
 		if AutoAga == 1 then
 			AutoAga = 0
 			add_to_chat(8,'Curaga 3 Mode: [Off]')
 		else
 			AutoAga = 1
 			add_to_chat(158,'Curaga 3 Mode: [ON]')
+		end
+		status_change(player.status)
+	
+	elseif command == 'B10' then -- Sublimation Toggle --
+		if Sublimation == 1 then
+			Sublimation = 0
+			add_to_chat(8,'Auto Sublimation: [Off]')
+		else
+			Sublimation = 1
+			add_to_chat(158,'Auto Sublimation: [ON]')
 		end
 		status_change(player.status)
 	end
