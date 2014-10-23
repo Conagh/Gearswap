@@ -292,12 +292,12 @@ function aftercast(spell,action)
                 Idle()
 			end
 			if buffactive['Sublimation: Complete'] and player.mpp < 75 and player.mpp > 25 then
-				add_to_chat(8,'Sublimation Completed: MP Mid Range')
+				add_to_chat(159,'Sublimation Completed: MP Mid Range')
 				if Sublimation == 1 then
 					windower.send_command('@wait 2;input /ja "Sublimation" <me>')
 				end
 			elseif buffactive['Sublimation: Complete'] and player.mpp < 25 then
-				add_to_chat(8,'Sublimation Completed: MP Danger Zone')
+				add_to_chat(039,'Sublimation Completed: MP Danger Zone')
 				if Sublimation == 1 then
 					windower.send_command('@wait 2;input /ja "Sublimation" <me>')
 				end
