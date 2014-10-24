@@ -1,9 +1,43 @@
 function get_sets()
 send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default Macro Book Here --
-AutoAga = 1
-Sublimation = 1
+		
+		AutoAga = 1
+		Sublimation = 1
+		AccIndex = 1
+		AccArray = {"Low","Mid","High"} -- 3 Levels Of Accuracy Sets For TP/WS/Hybrid. Default ACC Set Is LowACC. The First TP Set Of Your Main Weapon Is LowACC. Add More ACC Sets If Needed Then Create Your New ACC Below --
 		Armor = 'None'
 		
+	sets.TP								= {}
+	
+	sets.TP.Low							= {head="Gendewitha Caubeen",neck="Asperity Necklace",ear1="Brutal Earring",
+			ear2="Suppanomi",body="Theophany briault +1",hands="Dynasty Gloves",ring1="Rajas ring",
+			ring2="Patricius Ring",back="Cheviot Cape",waist="Goading Belt",legs="Artsieq Hose",feet="Theo. Duckbills +1"}
+	
+	sets.TP.Mid							= {}
+	
+	sets.TP.High						= {}
+	
+	
+	sets.engaged						= {}
+	
+	sets.engaged.healing				= {}
+	
+	sets.engaged.healing.Curaga			= {}
+	
+	sets.engaged.healing.Cure			= {}
+	
+	sets.engaged.healing.Weather		= {}
+	
+	
+	sets.ws								= {}
+	
+	sets.ws['Realmrazer']				= {}
+	
+	sets.ws['Flash Nova']				= {head="Nahtirah Hat",neck="Eddy Necklace",ear1="Friomisi Earring",
+		ear2="Hecate's Earring",body="Bokwus Robe",hands="Yaoyotl Gloves",ring1="Aquasoul Ring",ring2="Songoma Ring",
+		back="Toro Cape",waist="Aswang Sash",legs="Theophany Pantaloons",feet="Weath. Souliers +1"}
+	
+	
 	sets.aftercast 						= {}
 		
 	sets.aftercast.night				= {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
@@ -196,7 +230,19 @@ function precast(spell,action)
 	if midaction() then cancel_spell() 
 	return 
 	end
-	if spell.type == "JobAbility" then
+	if spell.type == "WeaponSkill" then
+		if player.status ~= 'Engaged' then -- Cancel WS If You Are Not Engaged. Can Delete It If You Don't Need It --
+			cancel_spell()
+			add_to_chat(8,'Unable To Use WeaponSkill: [Disengaged]')
+			return
+		else
+			equipSet = sets.ws
+			if equipSet[spell.english] then
+				equipSet = equipSet[spell.english]
+			end
+			equip(equipSet)
+		end
+	elseif spell.type == "JobAbility" then
 	    if spell.type == 'JobAbility' and windower.ffxi.get_ability_recasts()[spell.recast_id] > 0 then
 		cancel_spell()
 		return
@@ -226,15 +272,32 @@ function midcast(spell,action)
 	if spell.skill =='Healing Magic' then
 		if Cures:contains(spell.name) then
 			if  world.day =='Lightsday' or  world.weather_element == 'Light'  or buffactive == 'Aurorastorm' then
-				equip(sets.midcast.healing.weather)
+				if player.status == 'Engaged' then
+					equip(sets.engaged.healing.weather)
+				else
+					equip(sets.midcast.healing.weather)
+				end
 			else
-				equip(sets.midcast.healing.cure)
+				if player.status == 'Engaged' then
+					equip(sets.engaged.healing.cure)
+					add_to_chat(8,'TP Sets Engaged')
+				else
+					equip(sets.midcast.healing.cure)
+				end
 			end
 		elseif Curagas:contains(spell.name) then
 			if  world.day =='Lightsday' or  world.weather_element == 'Light'  or buffactive == 'Aurorastorm' then
-				equip(sets.midcast.healing.weather)
+				if player.status == 'Engaged' then
+					equip(sets.engaged.healing.weather)
+				else
+					equip(sets.midcast.healing.weather)
+				end
 			else
-				equip(sets.midcast.healing.curaga)
+				if player.status == 'Engaged' then
+					equip(sets.engaged.healing.curaga)
+				else
+					equip(sets.midcast.healing.curaga)
+				end
 			end
 		elseif Lyna:contains(spell.name) then
 			if buffactive['Divine Caress'] then
@@ -309,11 +372,13 @@ function aftercast(spell,action)
 			elseif not buffactive['Sublimation: Complete'] and not buffactive['Sublimation: Activated'] and Sublimation == 1 then
 				windower.send_command('@wait 2;input /ja "Sublimation" <me>')
 			
-			end	
+			end
+			status_change(player.status)
 end
 
 function status_change(new,action)
 	if new == 'Idle' then
+		enable('main','sub')
 		if Armor == '119' then
 		equip(sets.aftercast.defense)
 		else
@@ -321,6 +386,13 @@ function status_change(new,action)
 		end
 	elseif new == 'Resting' then
 		equip(sets.aftercast.resting)
+	elseif new == 'Engaged' then
+		disable('main','sub')
+		equipSet = sets.TP
+		if equipSet[AccArray[AccIndex]] then
+			equipSet = equipSet[AccArray[AccIndex]]
+		end
+		equip(equipSet)
 	end
 end
 
@@ -348,7 +420,12 @@ end
 
 
 function self_command(command)
-	if command == 'C15' then -- MDT Toggle --
+	if command == 'C1' then -- Accuracy Level Toggle --
+		AccIndex = (AccIndex % #AccArray) + 1
+		add_to_chat(158,'Accuracy Level: '..AccArray[AccIndex])
+		status_change(player.status)
+
+	elseif command == 'C15' then -- MDT Toggle --
 		if Armor == '119' then
 			Armor = 'None'
 			add_to_chat(8,'119 Set: [Unlocked]')
