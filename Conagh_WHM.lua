@@ -193,6 +193,9 @@ Defense									= S{'Stoneskin'}
 
 
 function precast(spell,action)
+	if midaction() then cancel_spell() 
+	return 
+	end
 	if spell.type == "JobAbility" then
 	    if spell.type == 'JobAbility' and windower.ffxi.get_ability_recasts()[spell.recast_id] > 0 then
 		cancel_spell()
