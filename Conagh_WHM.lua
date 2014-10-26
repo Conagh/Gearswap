@@ -7,29 +7,29 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 		AccArray = {"Low","Mid","High"} -- 3 Levels Of Accuracy Sets For TP/WS/Hybrid. Default ACC Set Is LowACC. The First TP Set Of Your Main Weapon Is LowACC. Add More ACC Sets If Needed Then Create Your New ACC Below --
 		Armor = 'None'
 		
-	sets.TP								= {}
+	sets.TP						= {}
 	
-	sets.TP.Low							= {head="Gendewitha Caubeen",neck="Asperity Necklace",ear1="Brutal Earring",
+	sets.TP.Low					= {head="Gendewitha Caubeen",neck="Asperity Necklace",ear1="Brutal Earring",
 			ear2="Suppanomi",body="Theophany briault +1",hands="Dynasty Gloves",ring1="Rajas ring",
 			ring2="Patricius Ring",back="Cheviot Cape",waist="Goading Belt",legs="Artsieq Hose",feet="Theo. Duckbills +1"}
 	
-	sets.TP.Mid							= {}
+	sets.TP.Mid					= {}
 	
-	sets.TP.High						= {}
+	sets.TP.High					= {}
 	
 	
-	sets.engaged						= {}
+	sets.engaged					= {}
 	
 	sets.engaged.healing				= {}
 	
 	sets.engaged.healing.Curaga			= {}
-	
+		
 	sets.engaged.healing.Cure			= {}
 	
-	sets.engaged.healing.Weather		= {}
+	sets.engaged.healing.Weather			= {}
 	
 	
-	sets.ws								= {}
+	sets.ws						= {}
 	
 	sets.ws['Realmrazer']				= {}
 	
@@ -38,7 +38,7 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 		back="Toro Cape",waist="Aswang Sash",legs="Theophany Pantaloons",feet="Weath. Souliers +1"}
 	
 	
-	sets.aftercast 						= {}
+	sets.aftercast 					= {}
 		
 	sets.aftercast.night				= {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
 		head="Nefer Khat",neck="Twilight Torque",ear1="Merman's Earring",ear2="Coral Earring",
@@ -50,7 +50,7 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 		body="Theophany briault +1",hands="Gendewitha Gages",ring1="Dark ring",ring2="Patricius Ring",
 		back="Cheviot Cape",waist="Siegel Sash",legs="Artsieq Hose",feet="Theo. Duckbills +1"}
 	
-	sets.aftercast.day 					= {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
+	sets.aftercast.day 				= {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
 		head="Nefer Khat",neck="Twilight Torque",ear1="Merman's Earring",ear2="Coral Earring",
 		body="Heka's Kalasiris",hands="Lurid Mitts",ring1="Dark ring",ring2="Patricius Ring",
 		back="Cheviot Cape",waist="Siegel Sash",legs="Nares Trews",feet="Serpentes Sabots"}
@@ -63,7 +63,7 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 	sets.aftercast.resting 				= {main="Chatoyant Staff",feet="Chelona Boots"}
 	
 	
-	sets.precast 						= {}
+	sets.precast 					= {}
 	
 	sets.precast.fastcast 				= {ammo="Imaptiens",head="Nahtirah Hat",ear1="loquacious Earring",neck="Orunmila's Torque",
 			body="Anhur Robe",hands="Gendewitha Gages",back="Swith Cape",legs="Artsieq Hose",feet="Chelona Boots",
@@ -77,7 +77,7 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 			body="Anhur Robe",hands="Gendewitha Gages",back="Swith Cape",legs="Artsieq Hose",feet="Chelona Boots",
 			waist="Siegel Sash",ear2="enchanter Earring +1",ring1="Prolix Ring",ring2="Lebeche Ring"}
 	
-	sets.precast.cure 					= {ammo="Impatiens",head="Nahtirah Hat",ear1="Loquacious Earring",
+	sets.precast.cure 				= {ammo="Impatiens",head="Nahtirah Hat",ear1="Loquacious Earring",
 			body="Heka's Kalasiris",hands="Gendewitha Gages",ring1="Prolix Ring",legs="Orsn. Pantaln. +2",
 			feet="Cure Clogs",waist="Witful Belt",ring2="Lebeche Ring",back="Pahtli Cape"}
 	
@@ -86,7 +86,7 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 			feet="Chelona Boots",waist="Witful Belt",ring2="lebeche Ring"}
 	
 	
-	sets.midcast						= {}
+	sets.midcast					= {}
 	
 	sets.midcast.healing 				= {}
 	
@@ -98,7 +98,7 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 			ear1="loquacious Earring",ear2="Enchntr. Earring +1",body="Hedera Cotehardie",hands="Orison Mitts +2",
 			ring1="Prolix Ring",ring2="Lebeche Ring",back="Swith Cape",waist="Witful Belt",legs="Artsieq Hose",feet="Gende. Galosh. +1"}
 	
-	sets.midcast.healing.cursna 		= {ammo="Incantor Stone",head="Orison Cap +2",neck="Malison Medallion",ear1="Loquacious Earring",
+	sets.midcast.healing.cursna 			= {ammo="Incantor Stone",head="Orison Cap +2",neck="Malison Medallion",ear1="Loquacious Earring",
 			ear2="Enchntr. Earring +1",body="Hedera Cotehardie",hands="Gendewitha Gages",ring1="Ephedra Ring",ring2="Ephedra Ring",
 			back="Mending Cape",waist="Witful Belt",legs="Artsieq Hose",feet="Gende. Galoshes"}
 
@@ -107,7 +107,7 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 			back="Mending Cape",waist="Witful Belt",legs="Artsieq Hose",feet="Gende. Galoshes"}
 
 			
-	sets.midcast.healing.curaga 		= {ammo="Incantor Stone",
+	sets.midcast.healing.curaga 			= {ammo="Incantor Stone",
 		main="Tamaxchi",sub="Genbu's Shield",head="Gende. Caubeen",body="Theo. Briault +1",hands="Theo. Mitts +1",legs="Orsn. Pantaln. +2",
 		feet="Piety Duckbills +1",neck="Nuna Gorget +1",waist="Cascade Belt",ear2="Cmn. Earring",ear1="Lifestorm Earring",left_ring="Sirona's Ring",
 		right_ring="Aquasoul Ring",back="Pahtli Cape",}
@@ -117,11 +117,11 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 		ring1="Sirona's Ring", ring2="Ephedra Ring", feet="Piety Duckbills +1", waist="Bishop's Sash",
 		ear2="Beatific Earring", ear1="Roundel Earring"}
 	
-	sets.midcast.healing.weather 		= {main="Chatoyant Staff",sub="Mephitis Grip",ammo="Incantor Stone",head="Gende. Caubeen",body="Orison Bliaud +2",hands="Bokwus Gloves",legs="Orsn. Pantaln. +2",
+	sets.midcast.healing.weather 			= {main="Chatoyant Staff",sub="Mephitis Grip",ammo="Incantor Stone",head="Gende. Caubeen",body="Orison Bliaud +2",hands="Bokwus Gloves",legs="Orsn. Pantaln. +2",
 		feet="Piety Duckbills +1",neck="Colossus's Torque",waist="Korin Obi",left_ear="Roundel Earring",right_ear="Beatific Earring",left_ring="Sirona's Ring",
 		right_ring="Ephedra Ring",back="Twilight Cape"}
 	
-	sets.midcast.healing.recast 		= {ammo="Incantor Stone",
+	sets.midcast.healing.recast 			= {ammo="Incantor Stone",
 		head="Nahtirah Hat",neck="Colossus's Torque",ear1="Lifestorm Earring",ear2="Loquacious Earring",
 		body="Theo. briault +1",hands="Dynasty Mitts",
 		back="Swith Cape",waist="Goading Belt",legs="Artsieq hose",feet="Piety Duckbills +1"}	
@@ -134,26 +134,26 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 		body="Hyksos Robe",hands="Dynasty Mitts",
 		back="Swith Cape",waist="Olympus sash",legs="Piety Pantaloons",feet="Orsn. Duckbills +2"}
 
-	sets.midcast.enhancing.recast 		= {ammo="Incantor Stone",
+	sets.midcast.enhancing.recast 			= {ammo="Incantor Stone",
 		head="Nahtirah Hat",neck="Colossus's Torque",ear1="Enchanter Earring +1",ear2="Loquacious Earring",
 		body="Theo. briault +1",hands="Dynasty Mitts",
 		back="Swith Cape",waist="Goading Belt",legs="Artsieq hose",feet="Piety Duckbills +1"}
 
-	sets.midcast.enhancing.barspell 	= {main="Beneficus",sub="Genbu's Shield",ammo="Incantor Stone",
+	sets.midcast.enhancing.barspell 		= {main="Beneficus",sub="Genbu's Shield",ammo="Incantor Stone",
 		head="Orison Cap +2",neck="Colossus's Torque",ear1="Augment. Earring",ear2="Androaa Earring",
 		body="Orison Bliaud +2",hands="Orison Mitts +2",
 		back="Mending Cape",waist="Olympus Sash",legs="Piety Pantaloons",feet="Orison Duckbills +2"}
 	
-	sets.midcast.enhancing.regen 		= {main="Bolelabunga", legs="Theophany pantaloons",feet="Gendewitha galoshes",
+	sets.midcast.enhancing.regen 			= {main="Bolelabunga", legs="Theophany pantaloons",feet="Gendewitha galoshes",
 	hands="Orison Mitts +2",body="Piety Briault"}
 	
-	sets.midcast.enhancing.turtle 		= {legs="Piety Pantaloons",feet="Piety Duckbills +1"}
-	
-	sets.midcast.enhancing.stoneskin	= {neck="Stone Gorget",waist="Siegel Sash",legs="Haven Hose",Ear1="Earthcry Earring"}
+	sets.midcast.enhancing.turtle 			= {legs="Piety Pantaloons",feet="Piety Duckbills +1"}
+		
+	sets.midcast.enhancing.stoneskin		= {neck="Stone Gorget",waist="Siegel Sash",legs="Haven Hose",Ear1="Earthcry Earring"}
 
 	
 	
-	sets.midcast.divine					= {}
+	sets.midcast.divine				= {}
 	
 	sets.midcast.divine.holy			= {main="Lehbrailg +2",sub="Mephitis Grip",head="Nahtirah Hat",neck="Eddy Necklace",
 			ear1="Friomisi Earring",ear2="Hecate's Earring",body="Bokwus Robe",hands="Yaoyotl Gloves",ring1="Aquasoul Ring",ring2="Songoma Ring",
@@ -176,12 +176,12 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 	
 	sets.midcast.enfeebling				= {}
 	
-	sets.midcast.enfeebling.accuracy	= { ammo="Kalboron Stone",
+	sets.midcast.enfeebling.accuracy		= { ammo="Kalboron Stone",
     main="Lehbrailg +2",sub="Mephitis Grip",head="Artsieq Hat",body="Theo. Briault +1",hands="Lurid Mitts",legs="Artsieq Hose",feet="Theo. Duckbills +1",
     neck="Imbodla Necklace",waist="Ovate Rope",left_ear="Lifestorm Earring",right_ear="Psystorm Earring",left_ring="Maquette Ring",right_ring="Sangoma Ring",
     back="Refraction Cape"}
 	
-	sets.midcast.enfeebling.potency		= {ammo="Kalboron Stone",
+	sets.midcast.enfeebling.potency			= {ammo="Kalboron Stone",
     main="Lehbrailg +2",sub="Mephitis Grip",head="Artsieq Hat",body="Theo. Briault +1",hands="Lurid Mitts",legs="Artsieq Hose",feet="Theo. Duckbills +1",
     neck="Imbodla Necklace",waist="Ovate Rope",left_ear="Lifestorm Earring",right_ear="Psystorm Earring",left_ring="Aquasoul Ring",right_ring="Sangoma Ring",
     back="Refraction Cape",}
@@ -189,16 +189,16 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 	
 	sets.midcast.elemental				= {}
 	
-	sets.midcast.elemental.accuracy 	= {main="Lehbrailg +2",sub="Mephitis Grip",head="Nahtirah Hat",neck="Eddy Necklace",
+	sets.midcast.elemental.accuracy 		= {main="Lehbrailg +2",sub="Mephitis Grip",head="Nahtirah Hat",neck="Eddy Necklace",
 			ear1="Friomisi Earring",ear2="Hecate's Earring",body="Bokwus Robe",hands="Yaoyotl Gloves",ring1="Aquasoul Ring",ring2="Songoma Ring",
 			back="Toro Cape",waist="Aswang Sash",legs="Gendewitha Spats",feet="Weath. Souliers +1"}
 
 	
 	
-	sets.JA 							= {}
+	sets.JA 					= {}
 	
 	sets.JA["Benediction"]				= {Head="Piety Briault"}
-	sets.JA["Devotion"]					= {Head="Piety Cap +1"}
+	sets.JA["Devotion"]				= {Head="Piety Cap +1"}
 	
 end
 	
