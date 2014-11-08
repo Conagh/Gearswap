@@ -10,7 +10,7 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 	sets.TP								= {}
 	
 	sets.TP.Low							= {head="Gendewitha Caubeen",neck="Asperity Necklace",ear1="Brutal Earring",
-			ear2="Suppanomi",body="Theophany briault +1",hands="Dynasty Gloves",ring1="Rajas ring",
+			ear2="Suppanomi",body="Theophany briault +1",hands="Dynasty Mitts",ring1="Rajas ring",
 			ring2="Patricius Ring",back="Cheviot Cape",waist="Goading Belt",legs="Artsieq Hose",feet="Theo. Duckbills +1"}
 	
 	sets.TP.Mid							= {}
@@ -31,7 +31,9 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 	
 	sets.ws								= {}
 	
-	sets.ws['Realmrazer']				= {}
+	sets.ws['Realmrazer']				= {head="Artsieq Hat",belt="Thunder Belt",necl="Nuna Gorget +1",
+		body="Theophany briault +1",hands="Dynasty Mitts",ring1="Levia. Ring",ring2="Aquasoul Ring",back="Refraction Cape",
+		belt="Thunder Belt",legs="Artsieq Hose",feet="Theo. Duckbills +1"}
 	
 	sets.ws['Flash Nova']				= {head="Nahtirah Hat",neck="Eddy Necklace",ear1="Friomisi Earring",
 		ear2="Hecate's Earring",body="Bokwus Robe",hands="Yaoyotl Gloves",ring1="Aquasoul Ring",ring2="Songoma Ring",
@@ -209,7 +211,7 @@ function pretarget(spell)
         send_command(';input /ma "Curaga III" '..spell.target.name..';')
         return
     end
-end 
+end
 
 Cures 									= S{'Cure','Cure II','Cure III','Cure IV','Cure V','Cure VI'}
 Curagas 								= S{'Curaga','Curaga II','Curaga III','Curaga IV','Curaga V','Cura','Cura II','Cura III'}
@@ -445,6 +447,7 @@ function self_command(command)
 		end
 		status_change(player.status)
 	
+	
 	elseif command == 'B10' then -- Sublimation Toggle --
 		if Sublimation == 1 then
 			Sublimation = 0
@@ -454,5 +457,26 @@ function self_command(command)
 			add_to_chat(158,'Auto Sublimation: [ON]')
 		end
 		status_change(player.status)
+		
+	elseif command == 'SUPERCURE' then
+		if (windower.ffxi.get_spell_recasts()[215] > 0) then
+			send_command('input /ma "Cure V" <t>')
+		else
+			send_command('input /ja "Penury" <me>;wait 1.2;input /ma "Cure V" <me>')
+		end
+		
+	elseif command == 'SUPERGEN' then
+		if (windower.ffxi.get_spell_recasts()[215] > 0) then
+			send_command('input /ma "Regen IV" <t>')
+		else
+			send_command('input /ja "Penury" <me>;wait 1.2;input /ma "Regen IV" <t>')
+		end
+	
+	elseif command == 'SESUNA' then
+		if (windower.ffxi.get_spell_recasts()[246] > 0) then
+			send_command('input /ma "Esuna" <t>')
+		else
+			send_command('input /ja "Afflatus Misery" <me>;wait 1.2;input /ma "Esuna" <me>')
+		end
 	end
 end
