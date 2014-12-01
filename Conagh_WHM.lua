@@ -205,11 +205,23 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 end
 	
 function pretarget(spell)
-    if spell.name == 'Cure III' and spell.target.type == 'PLAYER' and not spell.target.charmed and AutoAga == 1 then
- 
-        cancel_spell()
-        send_command(';input /ma "Curaga III" '..spell.target.name..';')
-        return
+    if T{"Cure","Cure II","Cure III","Cure IV"}:contains(spell.name) and spell.target.type == 'PLAYER' and not spell.target.charmed and AutoAga == 1 then
+        target3_count = 0
+        target4_count = 0
+        for i=1,party.count do
+            if party[i].hpp<50 then
+                target4_count = target4_count + 1
+            elseif party[i].hpp<80 then
+                target3_count = target3_count + 1
+            end
+        end
+        if target3_count > 1 then
+            cancel_spell()
+            send_command(';input /ma "Curaga III" '..spell.target.name..';')
+        elseif target4_count > 1 then
+            cancel_spell()
+            send_command(';input /ma "Curaga IV" '..spell.target.name..';')    
+        end
     end
 end
 
