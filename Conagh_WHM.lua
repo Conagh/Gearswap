@@ -1,6 +1,7 @@
 function get_sets()
 send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default Macro Book Here --
 		
+		curaga_benchmark = 40
 		AutoAga = 1
 		Sublimation = 1
 		AccIndex = 1
@@ -204,23 +205,35 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 	
 end
 	
+function party_index_lookup(name)
+    for i=1,party.count do
+        if party[i].name == name then
+            return i
+        end
+    end
+    return nil
+end
+
 function pretarget(spell)
     if T{"Cure","Cure II","Cure III","Cure IV"}:contains(spell.name) and spell.target.type == 'PLAYER' and not spell.target.charmed and AutoAga == 1 then
-        target3_count = 0
-        target4_count = 0
-        for i=1,party.count do
-            if party[i].hpp<50 then
-                target4_count = target4_count + 1
-            elseif party[i].hpp<80 then
-                target3_count = target3_count + 1
+        if not party_index_lookup(spell.target.name) then
+            return
+        end
+        local target_count = 0
+        local total_hpp_deficit = 0
+        for i=1,party.count do          
+            if party[i].hpp<80 and party[i].status_id ~= 2 and party[i].status_id ~= 3 then
+                target_count = target_count + 1
+                total_hpp_deficit = total_hpp_deficit + (100 - party[i].hpp)
             end
         end
-        if target3_count > 1 then
+        if target_count > 1 then
             cancel_spell()
-            send_command(';input /ma "Curaga III" '..spell.target.name..';')
-        elseif target4_count > 1 then
-            cancel_spell()
-            send_command(';input /ma "Curaga IV" '..spell.target.name..';')    
+            if total_hpp_deficit / target_count > curaga_benchmark then           
+                send_command(';input /ma "Curaga IV" '..spell.target.name..';')
+            else
+                send_command(';input /ma "Curaga III" '..spell.target.name..';')
+            end
         end
     end
 end
