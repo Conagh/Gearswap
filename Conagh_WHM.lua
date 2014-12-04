@@ -379,28 +379,36 @@ function midcast(spell,action)
 end
 
 function aftercast(spell,action)
-			if Armor == '119' then
-			equip(sets.aftercast.defense)
-			else
-                Idle()
-			end
-			if buffactive['Sublimation: Complete'] and player.mpp < 75 and player.mpp > 25 then
-				add_to_chat(159,'Sublimation Completed: MP Mid Range')
-				if Sublimation == 1 then
-					windower.send_command('@wait 2;input /ja "Sublimation" <me>')
-				end
-			elseif buffactive['Sublimation: Complete'] and player.mpp < 25 then
-				add_to_chat(039,'Sublimation Completed: MP Danger Zone')
-				if Sublimation == 1 then
-					windower.send_command('@wait 2;input /ja "Sublimation" <me>')
-				end
-			elseif buffactive['Sublimation: Complete'] and player.mpp > 75 then 
-				add_to_chat(158,'Sublimation Completed: MP Safe Zone')
-			elseif not buffactive['Sublimation: Complete'] and not buffactive['Sublimation: Activated'] and Sublimation == 1 then
-				windower.send_command('@wait 2;input /ja "Sublimation" <me>')
+	if Armor == '119' then
+		equip(sets.aftercast.defense)
+	else
+        Idle()
+		end
+	local total_mpp_deficit = 0         
+	if player.mpp<75 then
+		total_mpp_deficit = (100 - player.mpp)
+	end
+	if buffactive['Sublimation: Complete'] then
+		add_to_chat(039,'Sublimation test')
 			
+		if total_mpp_deficit > sublimation_benchmark then   
+        add_to_chat(039,'Benchmark test')
+			if Sublimation == 1 then
+				windower.send_command('@wait 4;input /ja "Sublimation" <me>')
+				add_to_chat(039,'Sublimation Completed: MP Danger Zone')
 			end
-			status_change(player.status)
+		else
+			if Sublimation == 1 then
+				windower.send_command('@wait 4;input /ja "Sublimation" <me>')
+				add_to_chat(159,'Sublimation Completed: MP Mid Range')
+			end
+		end
+	elseif not buffactive['Sublimation: Complete'] and not buffactive['Sublimation: Activated'] then
+		if Sublimation == 1 then
+		windower.send_command('@wait 4;input /ja "Sublimation" <me>')
+		end
+	end
+	
 end
 
 function status_change(new,action)
