@@ -1,7 +1,8 @@
 function get_sets()
 send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default Macro Book Here --
-		
-		curaga_benchmark = 40
+		curaga_benchmark = 30	
+		safe_benchmark = 70
+		sublimation_benchmark = 30
 		AutoAga = 1
 		Sublimation = 1
 		AccIndex = 1
@@ -45,7 +46,7 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 		
 	sets.aftercast.night				= {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
 		head="Nefer Khat",neck="Twilight Torque",ear1="Merman's Earring",ear2="Coral Earring",
-		body="Heka's Kalasiris",hands="Serpentes Cuffs",ring1="Dark ring",ring2="Patricius Ring",
+		body="Heka's Kalasiris",hands="Serpentes Cuffs",ring1="Dark ring",ring2="Woltaris Ring",
 		back="Cheviot Cape",waist="Siegel Sash",legs="Nares Trews",feet="Theo. Duckbills +1"}
 			
 	sets.aftercast.defense	 			= {main="Terra's Staff",ammo="Incantor Stone",
@@ -55,12 +56,12 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 	
 	sets.aftercast.day 					= {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
 		head="Nefer Khat",neck="Twilight Torque",ear1="Merman's Earring",ear2="Coral Earring",
-		body="Heka's Kalasiris",hands="Lurid Mitts",ring1="Dark ring",ring2="Patricius Ring",
+		body="Heka's Kalasiris",hands="Lurid Mitts",ring1="Dark ring",ring2="Woltaris Ring",
 		back="Cheviot Cape",waist="Siegel Sash",legs="Nares Trews",feet="Serpentes Sabots"}
 			
 	sets.aftercast.move				= {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
 		head="Nefer Khat",neck="Twilight Torque",ear1="Lifestorm Earring",ear2="Loquacious Earring",
-		body="Heka's Kalasiris",hands="Serpentes Cuffs",ring1="Sirona's ring",ring2="Aquasoul Ring",
+		body="Heka's Kalasiris",hands="Serpentes Cuffs",ring1="Dark ring",ring2="Woltaris Ring",
 		back="Cheviot Cape",waist="Siegel Sash",legs="Nares Trews",feet="Desert Boots"}
 	
 	sets.aftercast.resting 				= {main="Chatoyant Staff",feet="Chelona Boots"}
@@ -95,7 +96,7 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 	
 	sets.midcast.healing.lyna 			= {ammo="Incantor Stone",head="Orison Cap +2",neck="Orunmila's Torque",
 			ear1="loquacious Earring",ear2="Enchntr. Earring +1",body="Hedera Cotehardie",hands="Gendewitha Gages",
-			ring1="Prolix Ring",ring2="Lebeche Ring",back="Swith Cape",waist="Witful Belt",legs="Artsieq Hose",feet="Gende. Galosh. +1"}
+			ring1="Prolix Ring",ring2="Lebeche Ring",back="Swith Cape",waist="Witful Belt",legs="Orison Pantaloons +2",feet="Gende. Galosh. +1"}
 	
 	sets.midcast.healing.caress			= {ammo="Incantor Stone",head="Orison Cap +2",neck="Orunmila's Torque",
 			ear1="loquacious Earring",ear2="Enchntr. Earring +1",body="Hedera Cotehardie",hands="Orison Mitts +2",
@@ -204,7 +205,7 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 	sets.JA["Devotion"]					= {Head="Piety Cap +1"}
 	
 end
-	
+
 function party_index_lookup(name)
     for i=1,party.count do
         if party[i].name == name then
@@ -222,21 +223,22 @@ function pretarget(spell)
         local target_count = 0
         local total_hpp_deficit = 0
         for i=1,party.count do          
-            if party[i].hpp<80 and party[i].status_id ~= 2 and party[i].status_id ~= 3 then
-                target_count = target_count + 1
-                total_hpp_deficit = total_hpp_deficit + (100 - party[i].hpp)
-            end
-        end
-        if target_count > 1 then
-            cancel_spell()
-            if total_hpp_deficit / target_count > curaga_benchmark then           
-                send_command(';input /ma "Curaga IV" '..spell.target.name..';')
-            else
-                send_command(';input /ma "Curaga III" '..spell.target.name..';')
-            end
-        end
+				if party[i].hpp<75 and party[i].status_id ~= 2 and party[i].status_id ~= 3 then
+					target_count = target_count + 1
+					total_hpp_deficit = total_hpp_deficit + (100 - party[i].hpp)
+				end
+			end
+			if target_count > 1 then
+				cancel_spell()
+				if total_hpp_deficit / target_count > curaga_benchmark then           
+					send_command(';input /ma "Curaga IV" '..spell.target.name..';')
+				else
+					send_command(';input /ma "Curaga III" '..spell.target.name..';')
+				end
+			end
     end
 end
+
 
 Cures 									= S{'Cure','Cure II','Cure III','Cure IV','Cure V','Cure VI'}
 Curagas 								= S{'Curaga','Curaga II','Curaga III','Curaga IV','Curaga V','Cura','Cura II','Cura III'}
@@ -383,32 +385,32 @@ function aftercast(spell,action)
 		equip(sets.aftercast.defense)
 	else
         Idle()
-		end
+	end
+	AutoSublimation()	
+end
+
+function AutoSublimation()
 	local total_mpp_deficit = 0         
 	if player.mpp<75 then
 		total_mpp_deficit = (100 - player.mpp)
 	end
-	if buffactive['Sublimation: Complete'] then
-		add_to_chat(039,'Sublimation test')
-			
-		if total_mpp_deficit > sublimation_benchmark then   
-        add_to_chat(039,'Benchmark test')
+		if buffactive['Sublimation: Complete'] then 
+				if total_mpp_deficit > sublimation_benchmark then   
+					if Sublimation == 1 then
+						windower.send_command('@wait 4;input /ja "Sublimation" <me>')
+						add_to_chat(039,'Sublimation Completed: MP Danger Zone')
+					end
+				elseif player.mpp < 75 then
+					if Sublimation == 1 then
+						windower.send_command('@wait 4;input /ja "Sublimation" <me>')
+						add_to_chat(159,'Sublimation Completed: MP Mid Range')
+					end
+				end
+		elseif not buffactive['Sublimation: Complete'] and not buffactive['Sublimation: Activated'] then
 			if Sublimation == 1 then
-				windower.send_command('@wait 4;input /ja "Sublimation" <me>')
-				add_to_chat(039,'Sublimation Completed: MP Danger Zone')
-			end
-		else
-			if Sublimation == 1 then
-				windower.send_command('@wait 4;input /ja "Sublimation" <me>')
-				add_to_chat(159,'Sublimation Completed: MP Mid Range')
+			windower.send_command('@wait 4;input /ja "Sublimation" <me>')
 			end
 		end
-	elseif not buffactive['Sublimation: Complete'] and not buffactive['Sublimation: Activated'] then
-		if Sublimation == 1 then
-		windower.send_command('@wait 4;input /ja "Sublimation" <me>')
-		end
-	end
-	
 end
 
 function status_change(new,action)
