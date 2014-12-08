@@ -383,36 +383,30 @@ function aftercast(spell,action)
 	else
         Idle()
 	end	
+	AutoSublimation()
 end
 
 
 
-windower.register_event('mp change', function(mp)
-	local total_mpp_deficit = 0         
-	if player.mpp<75 then
-		total_mpp_deficit = (100 - player.mpp)
-	end
-		if buffactive['Sublimation: Complete'] and not midaction() then 
-				if total_mpp_deficit > sublimation_benchmark then   
-					if Sublimation == 1 then
-						windower.send_command('@wait 2;input /ja "Sublimation" <me>')
-						add_to_chat(039,'Sublimation Completed: MP Danger Zone')
-						status_change(player.status)
-					end
-				elseif player.mpp < 75 then
-					if Sublimation == 1 then
-						windower.send_command('@wait 2;input /ja "Sublimation" <me>')
-						add_to_chat(159,'Sublimation Completed: MP Mid Range')
-						status_change(player.status)
-					end
-				end
-		elseif not buffactive['Sublimation: Complete'] and not buffactive['Sublimation: Activated']and not midaction() then
-			if Sublimation == 1 then
-			windower.send_command('@wait 2;input /ja "Sublimation" <me>')
-			status_change(player.status)
-			end
-		end
-end)
+function AutoSublimation()      
+        if buffactive['Sublimation: Complete'] then
+                if player.mpp < sublimation_benchmark then  
+                    if Sublimation == 1 then
+                        windower.send_command('@wait 4;input /ja "Sublimation" <me>')
+                        add_to_chat(039,'Sublimation Completed: MP Danger Zone')
+                    end
+                elseif player.mpp < 75 then
+                    if Sublimation == 1 then
+                        windower.send_command('@wait 4;input /ja "Sublimation" <me>')
+                        add_to_chat(159,'Sublimation Completed: MP Mid Range')
+                    end
+                end
+        elseif not buffactive['Sublimation: Complete'] and not buffactive['Sublimation: Activated'] then
+            if Sublimation == 1 then
+            windower.send_command('@wait 4;input /ja "Sublimation" <me>')
+            end
+        end
+end
 
 function status_change(new,action)
 	if new == 'Idle' then
@@ -421,6 +415,7 @@ function status_change(new,action)
 		equip(sets.aftercast.defense)
 		else
 			Idle()
+			AutoSublimation()
 		end
 	elseif new == 'Resting' then
 		equip(sets.aftercast.resting)
