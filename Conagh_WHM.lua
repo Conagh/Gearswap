@@ -169,7 +169,7 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 			
 	sets.midcast.divine.repose			= {ammo="Kalboron Stone",
 		main="Lehbrailg +2",sub="Mephitis Grip",head="Artsieq Hat",body="Theo. Briault +1",hands="Lurid Mitts",legs="Artsieq Hose",feet="Theo. Duckbills +1",
-		neck="Imbodla Necklace",waist="Ovate Rope",left_ear="Lifestorm Earring",right_ear="Psystorm Earring",left_ring="Maquette Ring",right_ring="Sangoma Ring",
+		neck="Nuna Gorget +1",waist="Ovate Rope",left_ear="Lifestorm Earring",right_ear="Psystorm Earring",left_ring="Maquette Ring",right_ring="Sangoma Ring",
 		back="Refraction Cape"}
 	
 	sets.midcast.divine.flash			= { ammo="Kalboron Stone",
@@ -236,8 +236,8 @@ function pretarget(spell)
 					send_command(';input /ma "Curaga III" '..spell.target.name..';')
 				end
 			end
-    end
-end
+    end 
+end 
 
 
 Cures 									= S{'Cure','Cure II','Cure III','Cure IV','Cure V','Cure VI'}
@@ -256,9 +256,6 @@ Defense									= S{'Stoneskin'}
 
 
 function precast(spell,action)
-	if midaction() then cancel_spell() 
-	return 
-	end
 	if spell.type == "WeaponSkill" then
 		if player.status ~= 'Engaged' then -- Cancel WS If You Are Not Engaged. Can Delete It If You Don't Need It --
 			cancel_spell()
@@ -385,33 +382,37 @@ function aftercast(spell,action)
 		equip(sets.aftercast.defense)
 	else
         Idle()
-	end
-	AutoSublimation()	
+	end	
 end
 
-function AutoSublimation()
+
+
+windower.register_event('mp change', function(mp)
 	local total_mpp_deficit = 0         
 	if player.mpp<75 then
 		total_mpp_deficit = (100 - player.mpp)
 	end
-		if buffactive['Sublimation: Complete'] then 
+		if buffactive['Sublimation: Complete'] and not midaction() then 
 				if total_mpp_deficit > sublimation_benchmark then   
 					if Sublimation == 1 then
-						windower.send_command('@wait 4;input /ja "Sublimation" <me>')
+						windower.send_command('@wait 2;input /ja "Sublimation" <me>')
 						add_to_chat(039,'Sublimation Completed: MP Danger Zone')
+						status_change(player.status)
 					end
 				elseif player.mpp < 75 then
 					if Sublimation == 1 then
-						windower.send_command('@wait 4;input /ja "Sublimation" <me>')
+						windower.send_command('@wait 2;input /ja "Sublimation" <me>')
 						add_to_chat(159,'Sublimation Completed: MP Mid Range')
+						status_change(player.status)
 					end
 				end
-		elseif not buffactive['Sublimation: Complete'] and not buffactive['Sublimation: Activated'] then
+		elseif not buffactive['Sublimation: Complete'] and not buffactive['Sublimation: Activated']and not midaction() then
 			if Sublimation == 1 then
-			windower.send_command('@wait 4;input /ja "Sublimation" <me>')
+			windower.send_command('@wait 2;input /ja "Sublimation" <me>')
+			status_change(player.status)
 			end
 		end
-end
+end)
 
 function status_change(new,action)
 	if new == 'Idle' then
