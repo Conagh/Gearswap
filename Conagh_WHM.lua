@@ -1,13 +1,14 @@
 function get_sets()
-send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default Macro Book Here --
-		curaga_benchmark = 30	
-		safe_benchmark = 70
-		sublimation_benchmark = 30
-		AutoAga = 1
-		Sublimation = 1
+send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default Macro Book Here --	
 		AccIndex = 1
 		AccArray = {"Low","Mid","High"} -- 3 Levels Of Accuracy Sets For TP/WS/Hybrid. Default ACC Set Is LowACC. The First TP Set Of Your Main Weapon Is LowACC. Add More ACC Sets If Needed Then Create Your New ACC Below --
 		Armor = 'None'
+		AutoAga = 1
+		Curaga_benchmark = 30
+		Emnity = 1
+		Safe_benchmark = 70
+		Sublimation_benchmark = 30
+		Sublimation = 1
 		
 	sets.TP								= {}
 	
@@ -59,7 +60,7 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 		body="Heka's Kalasiris",hands="Lurid Mitts",ring1="Dark ring",ring2="Woltaris Ring",
 		back="Cheviot Cape",waist="Siegel Sash",legs="Nares Trews",feet="Serpentes Sabots"}
 			
-	sets.aftercast.move				= {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
+	sets.aftercast.move					= {main="Bolelabunga",sub="Genbu's Shield",ammo="Incantor Stone",
 		head="Nefer Khat",neck="Twilight Torque",ear1="Lifestorm Earring",ear2="Loquacious Earring",
 		body="Heka's Kalasiris",hands="Serpentes Cuffs",ring1="Dark ring",ring2="Woltaris Ring",
 		back="Cheviot Cape",waist="Siegel Sash",legs="Nares Trews",feet="Desert Boots"}
@@ -106,7 +107,7 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 			ear2="Enchntr. Earring +1",body="Hedera Cotehardie",hands="Gendewitha Gages",ring1="Ephedra Ring",ring2="Ephedra Ring",
 			back="Mending Cape",waist="Witful Belt",legs="Artsieq Hose",feet="Gende. Galoshes"}
 
-	sets.midcast.healing.cursnacaress 		= {ammo="Incantor Stone",head="Orison Cap +2",neck="Malison Medallion",ear1="Loquacious Earring",
+	sets.midcast.healing.cursnacaress 	= {ammo="Incantor Stone",head="Orison Cap +2",neck="Malison Medallion",ear1="Loquacious Earring",
 			ear2="Enchntr. Earring +1",body="Hedera Cotehardie",hands="Orison Mitts +2",ring1="Ephedra Ring",ring2="Ephedra Ring",
 			back="Mending Cape",waist="Witful Belt",legs="Artsieq Hose",feet="Gende. Galoshes"}
 
@@ -116,10 +117,15 @@ send_command('input /macro book 7;wait .1;input /macro set 1') -- Change Default
 		feet="Piety Duckbills +1",neck="Nuna Gorget +1",waist="Cascade Belt",ear2="Cmn. Earring",ear1="Lifestorm Earring",left_ring="Sirona's Ring",
 		right_ring="Aquasoul Ring",back="Pahtli Cape",}
 	
-	sets.midcast.healing.cure 			= {main="Tamaxchi",head="Gendewitha caubeen",neck="Colossus's Torque",
+	sets.midcast.healing.cure 			= {main="Ababinili",head="Gendewitha caubeen",neck="Colossus's Torque",
+		body="Orison Bliaud +2",hands="Theo. Mitts +1",back="Mending Cape",legs="Orsn. Pantaln. +2",
+		ring1="Sirona's Ring", ring2="Ephedra Ring", feet="Regal Pumps", waist="Bishop's Sash",
+		ear2="Beatific Earring", ear1="Roundel Earring"}
+	
+	sets.midcast.healing.cureemnity 	= {main="Tamaxchi",head="Gendewitha caubeen",neck="Colossus's Torque",
 		body="Orison Bliaud +2",hands="Theo. Mitts +1",back="Mending Cape",legs="Orsn. Pantaln. +2",
 		ring1="Sirona's Ring", ring2="Ephedra Ring", feet="Piety Duckbills +1", waist="Bishop's Sash",
-		ear2="Beatific Earring", ear1="Roundel Earring"}
+		ear2="Beatific Earring", ear1="Roundel Earring"}	
 	
 	sets.midcast.healing.weather 		= {main="Chatoyant Staff",sub="Mephitis Grip",ammo="Incantor Stone",head="Gende. Caubeen",body="Orison Bliaud +2",hands="Bokwus Gloves",legs="Orsn. Pantaln. +2",
 		feet="Piety Duckbills +1",neck="Colossus's Torque",waist="Korin Obi",left_ear="Roundel Earring",right_ear="Beatific Earring",left_ring="Sirona's Ring",
@@ -230,7 +236,7 @@ function pretarget(spell)
 			end
 			if target_count > 1 then
 				cancel_spell()
-				if total_hpp_deficit / target_count > curaga_benchmark then           
+				if total_hpp_deficit / target_count > Curaga_benchmark then           
 					send_command(';input /ma "Curaga IV" '..spell.target.name..';')
 				else
 					send_command(';input /ma "Curaga III" '..spell.target.name..';')
@@ -307,7 +313,9 @@ function midcast(spell,action)
 				if player.status == 'Engaged' then
 					equip(sets.engaged.healing.cure)
 					add_to_chat(8,'TP Sets Engaged')
-				else
+				elseif Emnity == 1 then
+					equip(sets.midcast.healing.cureemnity)
+					else
 					equip(sets.midcast.healing.cure)
 				end
 			end
@@ -390,7 +398,7 @@ end
 
 function AutoSublimation()      
         if buffactive['Sublimation: Complete'] then
-                if player.mpp < sublimation_benchmark then  
+                if player.mpp < Sublimation_benchmark then  
                     if Sublimation == 1 then
                         windower.send_command('@wait 4;input /ja "Sublimation" <me>')
                         add_to_chat(039,'Sublimation Completed: MP Danger Zone')
@@ -477,7 +485,17 @@ function self_command(command)
 			add_to_chat(158,'Curaga 3 Mode: [ON]')
 		end
 		status_change(player.status)
-	
+
+	elseif command == 'Z10' then -- Emnity Toggle --
+		if Emnity == 1 then
+			Emnity = 0
+			add_to_chat(8,'Emnity - Mode: [Off]')
+		else
+			Emnity = 1
+			add_to_chat(158,'Emnity - Mode: [ON]')
+		end
+		status_change(player.status)
+		
 	
 	elseif command == 'B10' then -- Sublimation Toggle --
 		if Sublimation == 1 then
