@@ -55,6 +55,32 @@ function get_sets()
         body="Mes'yohi Haubergeon",hands="Umuthi Gloves",ring1="Leviathan Ring",ring2="Leviathan Ring",
         back="Atheling Mantle",waist="Shadow Belt",legs="Mes'yohi Slacks",feet="Whirlpool Greaves",ammo="Aqua Sachet"}
         
+	 sets.midcast['Knights of Round'] = {
+        head="Yaoyotl Helm",neck="Light Gorget",ear1="Steelflash Earring",ear2="Bladeborn Earring",
+        body="Phorcys Korazin",hands="Buremte Gloves",ring1="Ifrit Ring +1",ring2="Rajas Ring",
+        back="Atheling Mantle",waist="Light Belt",legs="Reverence Breeches +1",feet="Reverence Leggings +1"}
+        
+    sets.midcast.Resolution = {
+        head="Yaoyotl Helm",neck="Soil Gorget",ear1="Moonshade Earring",ear2="Brutal Earring",
+        body="Cab. Surcoat +1",hands="Cizin Mufflers +1",ring1="Ifrit Ring +1",ring2="Rajas Ring",
+        back="Atheling Mantle",waist="Soil Belt",legs="Cab. Breeches +1",feet="Reverence Leggings +1"}
+        
+    sets.midcast.Torcleaver = {
+        head="Yaoyotl Helm",neck="Light Gorget",ear1="Moonshade Earring",ear2="Brutal Earring",
+        body="Cab. Surcoat +1",hands="Cab. Gauntlets +1",ring1="Ifrit Ring +1",ring2="Rajas Ring",
+        back="Atheling Mantle",waist="Light Belt",legs="Cab. Breeches +1",feet="Scamp's Sollerets"}
+        
+    sets.midcast['Ground Strike'] = {
+        head="Yaoyotl Helm",neck="Soil Gorget",ear1="Moonshade Earring",ear2="Brutal Earring",
+        body="Cab. Surcoat +1",hands="Cizin Mufflers +1",ring1="Ifrit Ring +1",ring2="Rajas Ring",
+        back="Atheling Mantle",waist="Soil Belt",legs="Cab. Breeches +1",feet="Reverence Leggings +1"}
+        
+    sets.midcast.WS = {
+        head="Yaoyotl Helm",neck="Aqua Gorget",ear1="Moonshade Earring",ear2="Brutal Earring",
+        body="Phorcys Korazin",hands="Buremte Gloves",ring1="Ramuh Ring +1",ring2="Rajas Ring",
+        back="Rancorous Mantle",waist="Windbuffet Belt +1",legs="Reverence Breeches +1",feet="Ejekamal Boots"}
+        
+	
     sets.midcast.WS = {
         head="Yaoyotl Helm",neck="Thunder Gorget",ear1="Steelflash Earring",ear2="Bladeborn Earring",
         body="Mes'yohi Haubergeon",hands="Buremte Gloves",ring1="Ramuh Ring",ring2="Rajas Ring",
@@ -64,10 +90,10 @@ function get_sets()
     sets.midcast.WS_Day = { head="Gavialis helm" }
     
     sets.midcast.Cure = {
-        neck="Phalaina Locket",body="Reverence Surcoat +1",head"Shabti Armet +1",hands="Buremte Gloves",ring1="Eihwaz Ring",ring2="Kunaji Ring",
+        neck="Phalaina Locket",body="Reverence Surcoat +1",head="Shabti Armet +1",hands="Buremte Gloves",ring1="Eihwaz Ring",ring2="Kunaji Ring",
 		legs="Rev. Breeches +1",feet="Cab. Leggings +1",ear1="Hospitaler Earring",ear2="Oneiros Earring",waist="Chuq'aba Belt",back="Fierabras's Mantle"}
     sets.midcast.Cure_4 = {
-        neck="Phalaina Locket",body="Reverence Surcoat +1",head"Shabti Armet +1",hands="Buremte Gloves",ring1="Eihwaz Ring",ring2="Kunaji Ring",
+        neck="Phalaina Locket",body="Reverence Surcoat +1",head="Shabti Armet +1",hands="Buremte Gloves",ring1="Eihwaz Ring",ring2="Kunaji Ring",
 		legs="Rev. Breeches +1",feet="Cab. Leggings +1",ear1="Hospitaler Earring",ear2="Oneiros Earring",waist="Chuq'aba Belt",back="Fierabras's Mantle"}
 	
 	sets.midcast.Phalanx = {sub="Priwen",legs="Reverence Breeches +1",body="Shabti Cuirass +1",neck="Colossus's Torque",waist="Olympus Sash",
