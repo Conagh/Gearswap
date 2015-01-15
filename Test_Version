@@ -1,0 +1,414 @@
+function get_sets()
+	
+	Amend										= 0
+	sets.Idle 									= {}
+	sets.Idle.index 							= {'Standard','DT'}
+	Idle_ind 									= 1
+	WSAccArray									= {'Standard','Accuracy'}
+	WSAccIndex									= 1
+	
+	send_command('input /macro book 2;wait .1;input /macro set 1') -- Change Default Macro Book Here --
+
+	
+	-- On Loading this prints in game telling your macro's for set control --
+	
+		windower.add_to_chat(17, 'To Change Acc/WS sets you add the following macros')
+		windower.add_to_chat(17, 'for TP sets /console gs c toggle TP set')
+		windower.add_to_chat(17, 'for WS sets /console gs c C1')
+	
+	
+	
+	sets.Idle.Standard 							= {	ammo="Ginsen",
+													head="Oce. headpiece +1",neck="Twilight torque", ear1="Ethereal earring", ear2="Moonshade earring",
+													body="Mekosu. Harness",hands="Serpentes cuffs",ring1="Dark Ring",ring2="Woltaris Ring",
+													back="Shadow mantle",waist="Flume belt",legs="Blood Cuisses",feet="Serpentes sabots"}
+	
+	sets.Idle.DT								= { head="Hagondes Hat",
+													body="Hagondes Coat",hands="Iuitl Wristbands",legs="Blood Cuisses",feet="Battlecast Gaiters",
+													neck="Twilight Torque",waist="Flume Belt",left_ear="Heartseeker earring",right_ear="Dudgeon earring",
+													left_ring="Dark Ring",right_ring="Patricius Ring",back="Cheviot Cape"}
+	
+	
+	sets.TP										= {}
+	sets.TP.index								= {'Fodder','Normal','Lite','Medium','High','Full'}
+	TP_ind										= 1
+	
+	sets.TP.Fodder								= {	ammo="Jukukik Feather",
+													head="Thur. Chapeau +1",neck="Asperity Necklace", ear1="Dudgeon earring", ear2="Heartseeker earring",
+													body="Thaumas Coat",hands="Qaaxo Mitaines",ring1="Rajas Ring",ring2="Epona's Ring",
+													back="Atheling Mantle",waist="Windbuffet Belt +1",legs="Iuitl Tights +1",feet="Qaaxo Leggings"}
+													
+	sets.TP.Normal								= { ammo="Jukukik Feather",
+													head="Whirpool Mask",neck="Asperity Necklace", ear1="Dudgeon earring", ear2="Heartseeker earring",
+													body="Thaumas Coat",hands="Iuitl Wristbands +1",ring1="Rajas Ring",ring2="Epona's Ring",
+													back="Atheling Mantle",waist="Windbuffet Belt +1",legs="Iuitl Tights +1",feet="Qaaxo Leggings"}
+													
+	sets.TP.Lite								= {	ammo="Honed Tathlum",
+													head="Whirpool Mask",neck="Asperity Necklace", ear1="Dudgeon earring", ear2="Heartseeker earring",
+													body="Thaumas Coat",hands="Aetosaur Gloves +1",ring1="Rajas Ring",ring2="Epona's Ring",
+													back="Atheling Mantle",waist="Windbuffet Belt +1",legs="Iuitl Tights +1",feet="Qaaxo Leggings"}
+
+	sets.TP.Medium								= {	ammo="Honed Tathlum",
+													head="Whirpool Mask",neck="Asperity Necklace", ear1="Dudgeon earring", ear2="Heartseeker earring",
+													body="Thaumas Coat",hands="Aetosaur Gloves +1",ring1="Rajas Ring",ring2="Epona's Ring",
+													back="Letalis Mantle",waist="Windbuffet Belt +1",legs="Manibozho Brais",feet="Qaaxo Leggings"}
+
+	sets.TP.High								= {	ammo="Honed Tathlum",
+													head="Whirpool Mask",neck="Asperity Necklace", ear1="Dudgeon earring", ear2="Heartseeker earring",
+													body="Thaumas Coat",hands="Aetosaur Gloves +1",ring1="Rajas Ring",ring2="Epona's Ring",
+													back="Letalis Mantle",waist="Windbuffet Belt +1",legs="Manibozho Brais",feet="Assim. Charuqs +1"}
+
+	sets.TP.Full								= {ammo="Honed Tathlum",
+													head="Whirpool Mask",neck="Asperity Necklace", ear2="Suppanomimi", ear1="Zennaroi earring",
+													body="Luhlaza Jubbah +1",hands="Buremte Gloves",ring1="Rajas Ring",ring2="Epona's Ring",
+													back="Letalis Mantle",waist="Windbuffet Belt +1",legs="Manibozho Brais",feet="Assim. Charuqs +1"}
+	
+	
+	sets.Hybrid									= {}
+	
+	
+	sets.DT										= {}
+	sets.DT.PDT									= {}
+	sets.DT.MDT									= {}
+	
+	
+	sets.WS										= {}
+
+	
+	sets.WS['Requiescat']						= {	Ammo="Aqua Sachet",
+													head="Whirlpool Mask",neck="Soil Gorget",ear1="Brutal Earring",ear2="Moonshade Earring",
+													body="Luhlaza Jubbah +1",hands="Qaaxo Mitaines",ring1="Leviathan Ring",ring2="Epona's Ring",
+													back="Atheling Mantle",waist="Soil Belt",legs="Quiahuiz Trousers",feet="Assim. Charuqs +1"}
+													
+	sets.WS['Requiescat']['Accuracy']			= {	Ammo="Jukukik Feather",
+													head="Whirlpool Mask",neck="Soil Gorget",ear1="Bladeborn Earring",ear2="Steelflash Earring",
+													body="Luhlaza Jubbah +1",hands="Qaaxo Mitaines",ring1="Mars's Ring",ring2="Epona's Ring",
+													back="Letalis Mantle",waist="Soil Belt",legs="Qaaxo Tights",feet="Assim. Charuqs +1"}
+	
+	
+	sets.WS['Chant Du Cygne']					= {	Ammo="Jukukik Feather",
+													head="Uk'uxkaj Cap",neck="Snow Gorget",ear1="Brutal Earring",ear2="Moonshade Earring",
+													body="Luhlaza Jubbah +1",hands="Luh. Bazubands +1",ring1="Thundersoul Ring",ring2="Epona's Ring",
+													back="Atheling Mantle",waist="Windbuffet Belt +1",legs="Qaaxo Tights",feet="Assim. Charuqs +1"}
+													
+	sets.WS['Chant Du Cygne']['Accuracy']		= {	Ammo="Honed Tathlum",
+													head="Whirlpool Mask",neck="Snow Gorget",ear1="Bladeborn Earring",ear2="STeelflash Earring",
+													body="Luhlaza Jubbah +1",hands="Buremte Gloves",ring1="Thundersoul Ring",ring2="Mars's Ring",
+													back="Letalis Mantle",waist="Snow Belt",legs="Manibozho Brais",feet="Assim. Charuqs +1"}		
+	
+	
+	sets.WS['Savage Blade']						= {	Ammo="Aqua Sachet",
+													head="Whirlpool Mask",neck="Soil Gorget",ear1="Brutal Earring",ear2="Moonshade Earring",
+													body="Luhlaza Jubbah +1",hands="Qaaxo Mitaines",ring1="Leviathan Ring",ring2="Epona's Ring",
+													back="Atheling Mantle",waist="Soil Belt",legs="Quiahuiz Trousers",feet="Assim. Charuqs +1"}
+													
+	sets.WS['Savage Blade']['Accuracy']			= {	Ammo="Honed Tathlum",
+													head="Whirlpool Mask",neck="Soil Gorget",ear1="Brutal Earring",ear2="Moonshade Earring",
+													body="Luhlaza Jubbah +1",hands="Qaaxo Mitaines",ring1="Mars's Ring",ring2="Epona's Ring",
+													back="Letalis Mantle",waist="Soil Belt",legs="Qaaxo Tights",feet="Assim. Charuqs +1"}
+
+	
+	sets.WS['Sanguine Blade']					= {}
+	sets.WS['Sanguine Blade']['Accuracy']		= {}	
+	
+	
+	sets.WS['Expiacion']						= {}
+	sets.WS['Expiacion']['Accuracy']			= {}
+	
+	
+	sets.WS['Realmrazer']						= {}
+	sets.WS['Realmrazer']['Accuracy']			= {}	
+	
+	
+	sets.WS['Flash Nova']						= {}
+	sets.WS['Flash Nova']['Accuracy']			= {}
+	
+	
+	sets.JA										= {}
+	sets.JA['Chain Affinity']					= {feet="Assim. Charuqs +1"}
+	sets.JA['Burst Affinity']					= {feet="Mavi Basmak +2"}
+	sets.JA['Efflux']							= {legs="Mavi Tayt +2"}
+	sets.JA['Azure Lore']						= {feet="Luhlaza Charuqs +1"}
+	sets.JA['Diffusion']						= {feet="Luhlaza Charuqs +1"}
+	
+	
+	sets.Precast								= {}
+	sets.Precast.FC								= {}
+	sets.Precast.FC['Normal']					= {}
+	sets.Precast.FC['Blue Magic']				= {}
+	
+	
+	sets.Midcast								= {}
+	sets.Midcast['Normal']						= {}
+	sets.Midcast['Blue Magic']					= {}
+	sets.Midcast['Blue Magic']['STR']			= {}
+	sets.Midcast['Blue Magic']['STRDEX']		= {}
+	sets.Midcast['Blue Magic']['STRVIT']		= {}
+	sets.Midcast['Blue Magic']['STRMND']		= {}
+	sets.Midcast['Blue Magic']['AGI']			= {}
+	sets.Midcast['Blue Magic']['INT']			= {}
+	sets.Midcast['Blue Magic']['Cures']			= {}
+	sets.Midcast['Blue Magic']['Self Cures']	= {}
+	sets.Midcast['Blue Magic']['Stun']			= {}
+	sets.Midcast['Blue Magic']['Heavy Strike']	= {}
+	sets.Midcast['Blue Magic']['Whisker']		= {}
+	sets.Midcast['Blue Magic']['White Wind']	= {}
+	sets.Midcast['Blue Magic']['Magic Acc']		= {}
+	sets.Midcast['Blue Magic']['Skill']			= {}
+	sets.Midcast['Blue Magic']['Recast']		= {}
+	
+	
+	sets.Utility								= {}
+	sets.Utility['Stoneskin']					= {}
+	sets.Utility['Phalanx']						= {}
+	
+end
+
+-- These are your spell tables, add spells in here for each type, Blue spells are seperated by their Properties I.E STR Mods only etc --
+
+STR												= S{'Vertical Cleave','Death Scissors','Empty Thrash','Dimensional Death','Quadrastrike','Bloodrake'}
+STRDEX											= S{'Disseverment','Hysteric Barrage','Frenetic Rip','Seedspray','Vanity Dive','Goblin Rush','Paralyzing Triad','Thrashing Assault'}
+STRVIT											= S{'Quad. Continuum','Delta Thrust','Cannonball','Glutinous Dart'}
+STRMND											= S{'Whirl of Rage'}
+AGI												= S{'Benthic Typhoon','Final Sting','Spiral Spin'}
+INT												= S{'Gates of Hades','Leafstorm','Firespit','Acrid Stream','Regurgutation','Corrosive Ooze','Thermal Pulse','Magic Hammer','Everyone. Grudge','Water Bomb','Dark Orb','Thunderbolt','Tem. Upheaval','Embalming Earth','Fowl Waters','Rending Deluge','Droning Whirlwind','Subduction'}
+Cures											= S{'Magic Fruit','Plenilune Embrace','Wild Carrot','Pollen','Cure III','Cure IV'}
+Stun											= S{'Head Butt','Sudden Lunge','Blitzstrahl'}	
+Whisker											= S{'Charged Whisker','Retinal Glare'}
+White											= S{'White Wind'}
+MACC											= S{'Frightfull Roar','Infrasonics','Barbed Crescent','Tourbillion','Cimicine Discharge','Sub-zero Smash','Filamented Hold','Mind Blast','Sandspin','Hecatomb Wave','Cold Wave','Terror Touch','Absolute Terror'}
+Skill											= S{'MP Drainkiss','Digest','Blood Saber','Blood Drain','Osmosis','Occultation','Magic Barrier','Diamondhide','Metallic Body'}
+Recast											= S{'Cocoon','Harden Shell','Animating Wail','Battery Charge','Nat. Meditation','Carcharian Verve','O. Countrstance','Barrier Tusk','Regeneration','Saline Coat','Erratic Flutter'}
+Heavy											= S{'Heavy Strike'}
+
+
+function precast(spell)
+	if spell.type == "WeaponSkill" then
+		if player.status ~= 'Engaged' then -- Cancel WS If You Are Not Engaged. Can Delete It If You Don't Need It --
+			cancel_spell()
+			add_to_chat(8,'Unable To Use WeaponSkill: [Disengaged]')
+			return
+		else
+			equipSet = sets.ws
+			if equipSet[spell.english] then
+				equipSet = equipSet[spell.english]
+			end
+			if equipSet[WSAccArray[WSAccIndex]] then
+				equipSet = equipSet[WSAccArray[WSAccIndex]]
+			end
+			if (spell.english == "Requiescat") then
+				if pDIF > 2.1 then
+					if Amend == 1 then
+					equipSet = set_combine(equipSet,{ear1="Bladeborn Earring",ear1="Steelflash Earring"})
+					else
+					equip(equipSet)
+					end
+				end
+			equip(equipSet)
+			end
+		end
+	elseif spell.type == 'JobAbility' then
+	    if spell.type == 'JobAbility' and windower.ffxi.get_ability_recasts()[spell.recast_id] > 0 then
+		cancel_spell()
+		return
+		end
+		if sets.JA[spell.english] then
+			equip(sets.JA[spell.english])
+		end
+	elseif spell.type == 'Magic' then
+		if spell.skill == 'Blue Magic' then
+		equip(sets.Precast.FC['Blue Magic'])
+		elseif spell.skill == 'Ninjutsu' then
+			if string.find(spell.english,'Utsusemi') then
+				if buffactive['Copy Image (3)'] or buffactive['Copy Image (4)'] then
+					cancel_spell()
+					add_to_chat(8, spell.english .. ' Canceled: [3+ Images]')
+					return
+				else
+					equip(sets.Precast.FC['Normal'])
+				end
+			else
+			equip(sets.Precast.FC['Normal'])
+			end
+		end
+	end
+end
+
+function midcast(spell,act)
+	if spell.skill == 'Blue Magic' then
+		if STR:contains(spell.name) then
+		equip(sets.Midcast['Blue Magic']['STR'])
+			if buffactive['Chain Affinity'] then
+			equip(sets.JA['Chain Affinity'])
+			end
+			if buffactive['Efflux'] then
+			equip(sets.JA['Efflux'])
+			end
+		elseif STRDEX:contains(spell.name) then
+		equip(sets.Midcast['Blue Magic']['STRDEX'])
+			if buffactive['Chain Affinity'] then
+			equip(sets.JA['Chain Affinity'])
+			end
+			if buffactive['Efflux'] then
+			equip(sets.JA['Efflux'])
+			end
+		elseif STRDVIT:contains(spell.name) then
+		equip(sets.Midcast['Blue Magic']['STRVIT'])
+			if buffactive['Chain Affinity'] then
+			equip(sets.JA['Chain Affinity'])
+			end
+			if buffactive['Efflux'] then
+			equip(sets.JA['Efflux'])
+			end		
+		elseif STRMND:contains(spell.name) then
+		equip(sets.Midcast['Blue Magic']['STRMND'])
+			if buffactive['Chain Affinity'] then
+			equip(sets.JA['Chain Affinity'])
+			end
+			if buffactive['Efflux'] then
+			equip(sets.JA['Efflux'])
+			end
+		elseif AGI:contains(spell.name) then
+		equip(sets.Midcast['Blue Magic']['AGI'])
+			if buffactive['Chain Affinity'] then
+			equip(sets.JA['Chain Affinity'])
+			end
+			if buffactive['Efflux'] then
+			equip(sets.JA['Efflux'])
+			end
+		elseif Heavy:contains(spell.name) then
+		equip(sets.Midcast['Blue Magic']['Heavy Strike'])
+			if buffactive['Chain Affinity'] then
+			equip(sets.JA['Chain Affinity'])
+			end
+			if buffactive['Efflux'] then
+			equip(sets.JA['Efflux'])
+			end
+		elseif INT:contains(spell.name) then
+		equip(sets.Midcast['Blue Magic']['INT'])
+			if buffactive['Burst Affinity'] then
+			equip(sets.JA['Burst Affinity'])
+			end
+		elseif Stun:contains(spell.name) then
+		equip(sets.Midcast['Blue Magic']['Stun'])
+		elseif Whisker:contains(spell.name) then
+		equip(sets.Midcast['Blue Magic']['Whisker'])
+			if buffactive['Burst Affinity'] then
+			equip(sets.JA['Burst Affinity'])
+			end
+		elseif MACC:contains(spell.name) then
+		equip(sets.Midcast['Blue Magic']['Magic Accuracy'])
+			if buffactive['Burst Affinity'] then
+			equip(sets.JA['Burst Affinity'])
+			end
+		elseif Skill:contains(spell.name) then
+		equip(sets.Midcast['Blue Magic']['Skill'])
+			if buffactive['Burst Affinity'] then
+			equip(sets.JA['Burst Affinity'])
+			end
+		elseif Skill:contains(spell.name) then
+		equip(sets.Midcast['Blue Magic']['Recast'])
+			if buffactive['Diffusion'] then
+			equip(sets.JA['Diffusion'])
+			end
+		elseif Cures:contains(spell.name) then
+		equip(sets.Midcast['Blue Magic']['Cures'])
+			if spell.target.name == player.name then
+				equip(sets.Midcast['Blue Magic']['Self Cures'])
+			end
+		end
+	end
+end
+
+function aftercast(spell)
+	if player.status == 'Engaged' then
+		equip(sets.TP[sets.TP.index[TP_ind]])
+	else
+		equip(sets.Idle[sets.Idle.index[Idle_ind]])
+	end
+	
+	if spell.action_type == 'Weaponskill' then
+		add_to_chat(158,'TP Return: ['..tostring(player.tp)..']')
+	end
+end
+
+function status_change(new,old)
+	if new == 'Engaged' then
+		equip(sets.TP[sets.TP.index[TP_ind]])
+	else
+		equip(sets.Idle[sets.Idle.index[Idle_ind]])
+	end
+end
+
+function self_command(command)
+	if command == 'toggle TP set' then
+		TP_ind = TP_ind +1
+		if TP_ind > #sets.TP.index then TP_ind = 1 end
+		add_to_chat(158,'TP Accuracy Level: '..sets.TP.index[TP_ind])
+		equip(sets.TP[sets.TP.index[TP_ind]])
+	elseif command == 'toggle Idle set' then
+		Idle_ind = Idle_ind +1
+		if Idle_ind > #sets.Idle.index then
+			Idle_ind = 1
+			end
+		send_command('@input /echo <----- Idle Set changed to '..sets.Idle.index[Idle_ind]..' ----->')
+		equip(sets.Idle[sets.Idle.index[Idle_ind]])
+
+	elseif command == 'C1' then -- Accuracy Level Toggle --
+		WSAccIndex = (WSAccIndex % #WSAccArray) + 1
+		add_to_chat(039,'Accuracy Level: '..WSAccArray[WSAccIndex])
+		status_change(player.status)
+		
+	elseif command == 'equip TP set' then
+		equip(sets.TP[sets.TP.index[TP_ind]])
+	elseif command == 'equip Idle set' then
+		equip(sets.Idle[sets.Idle.index[Idle_ind]])
+	end
+end	
+
+
+D = 132
+fSTR = 30.25
+pDIF = 0
+total_damage = 0
+total_damage_array = L{}
+max_count = 45
+max_acc_count = 100
+total_crit = 0
+
+ 
+windower.register_event('action',function (act)
+    local actor = act.actor_id
+    local category = act.category
+    local player = windower.ffxi.get_player()
+      
+    if actor == player.id and category == 1 then
+	
+        local round_hits = act.targets[1].action_count
+		
+        for i = 1,round_hits do
+			if act.targets[1].actions[i].reaction == 8 then
+				if act.targets[1].actions[i].message ~= 67 then
+				total_damage_array:append(act.targets[1].actions[i].param)
+				end
+			end
+		end
+			approximate_pdif()
+    end
+end)
+ 
+ 
+function approximate_pdif()
+    local total_damage = 0
+    local total_hits = math.min(max_count,total_damage_array:length())
+     
+    if total_damage_array:length() < 1 then
+        return
+    end
+     
+    for i=1,total_hits do
+        local v = total_damage_array:last(i)
+        total_damage = total_damage+v
+    end
+    pDIF = ( (total_damage/total_hits) / (D + fSTR) )
+end
