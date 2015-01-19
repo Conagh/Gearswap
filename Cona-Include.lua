@@ -7,7 +7,7 @@ function variables()
         define_user_functions()
  
         options = { usePDT = false, meleeMode = 'DD', autopilot = false,
-                HUD = { x = 100, y = 100, visible = true, trendSize = 25  }
+                HUD = { x = 100, y = 100, visible = true, trendSize = 40 }
         }
        
         build_HUD()
@@ -38,6 +38,18 @@ function define_user_functions()
                
                 windower.text.set_text(rtAcc, tostring(overall))
                 windower.text.set_text(rtTrend, tostring(recent))
+				
+				if recent >= 92 then
+					windower.text.set_color(rtTrend, 255, 2, 255, 2)
+				elseif recent < 92 then
+					if recent < 79 then
+					windower.text.set_color(rtTrend, 255, 255, 2, 60)
+					else
+					windower.text.set_color(rtTrend, 255, 200, 100, 2)
+					end
+				
+				end
+
         end
  
         windower.register_event('action',function (act)
@@ -63,7 +75,7 @@ function build_HUD()
         hudBord = 'blu_hud_border'
        
         windower.prim.create(hudBord)
-        windower.prim.set_color(hudBord, 255, 80, 80, 150)
+        windower.prim.set_color(hudBord, 255, 2, 2, 2)
         windower.prim.set_position(hudBord, options.HUD.x - 9, options.HUD.y-2)
         windower.prim.set_size(hudBord, 140, 70)
         windower.prim.set_visibility(hudBord, options.HUD.visible)
@@ -71,9 +83,9 @@ function build_HUD()
         hudBG = 'blu_hud_background'
        
         windower.prim.create(hudBG)
-        windower.prim.set_color(hudBG, 255, 30, 30, 80)
+        windower.prim.set_color(hudBG, 100, 40, 40, 100)
         windower.prim.set_position(hudBG, options.HUD.x - 7, options.HUD.y)
-        windower.prim.set_size(hudBG, 136, 66)
+        windower.prim.set_size(hudBG, 135, 65)
         windower.prim.set_visibility(hudBG, options.HUD.visible)
        
         rtAcc = 'blu_realtime_accuracy_display'
