@@ -1,10 +1,23 @@
-
-
 function get_sets()
-	Autows = 0
+	
+	include('Acc.lua')
+		D = 224
+		fSTR = 32.55
+        attacks = 0
+        hits = 0
+        trend = {}
+        trend_write_pos = 0
+        define_user_functions()
+        options = { usePDT = false, meleeMode = 'DD', autopilot = false,
+                HUD = { x = 100, y = 100, visible = true, trendSize = 25  }
+        }
+	build_HUD()
+	Autows 			= 0
+	auto 			=1
+	Samurai_Roll 	= 'ON'
 	AutoFudo = 0
 	AccIndex = 1
-	AccArray = {"LowACC","AvgACC","MidACC","HighACC"} -- 4 Levels Of Accuracy Sets For TP/WS/Hybrid. Default ACC Set Is LowACC. The First TP Set Of Your Main Weapon Is LowACC. Add More ACC Sets If Needed Then Create Your New ACC Below --
+	AccArray = {"LowACC","AvgACC","MidACC","HighACC","OshiACC"} -- 5 Levels Of Accuracy Sets For TP/WS/Hybrid. Default ACC Set Is LowACC. The First TP Set Of Your Main Weapon Is LowACC. Add More ACC Sets If Needed Then Create Your New ACC Below --
 	IdleIndex = 1
 	IdleArray = {"Movement","Regen"} -- Default Idle Set Is Movement --
 	Armor = 'None'
@@ -16,20 +29,20 @@ function get_sets()
 
 	-- Idle/Town Sets --
 	sets.Idle = {}
-	sets.Idle.Regen = {
-			head="Lithelimb Cap",
+	sets.Idle['Regen'] = {
+			head="Gavialis Helm",
 			neck="Wiglen Gorget",
 			body="Kyujutsugi",
-			ear1="Colossus's earring",
-			ear2="Darkness earring",
-			ring1="Dark ring",
+			ear1="Merman's earring",
+			ear2="Coral Earring",
+			ring1="Woltaris ring",
 			feet="Danzo Sune-ate",
 			back="Shadow mantle",
-			legs="Wakido Haidate +1",
+			legs="Scuffler's Cosciales",
 			ring2="Sheltered Ring",
 			Range="Cibitshavore"}
 
-	sets.Idle.Movement = set_combine(sets.Idle.Regen,{
+	sets.Idle['Movement'] = set_combine(sets.Idle.Regen,{
 			ammo="Vanir battery",
 			head="Lithelimb Cap",
 			neck="Twilight torque",
@@ -42,7 +55,7 @@ function get_sets()
 			ring2="Defending Ring",
 			back="Shadow mantle",
 			waist="Flume belt",
-			legs="Sakonji Haidate +1",
+			legs={ name="Otronif Brais +1", augments={'Phys. dmg. taken -3%','"Dbl.Atk."+2',}},
 			feet="Danzo Sune-ate"})
 
 
@@ -56,97 +69,238 @@ function get_sets()
 	-- Kogarasumaru(AM3 Down) TP Sets --
 	sets.TP.Kogarasumaru = {
 			main="Kogarasumaru",
-			sub="",
-			ammo="Hagneia Stone",
 			head="Otomi Helm",
 			neck="Ganesha's Mala",
-			ear1="Steelflash earring",
-			ear2="Bladeborn earring",
-			body="Juogi +1",
+			ear1="Tripudio earring",
+			ear2="Brutal earring",
+			body="Sakonji domaru +1",
 			hands="Wakido Kote +1",
 			ring1="K'ayres Ring",
 			ring2="Rajas Ring",
-			back="Misuuchi Kappa",
-			waist="Cetl belt",
-			legs="Otronif Brais +1",
-			feet="Sakonji Sune-Ate +1"}
-	sets.TP.Kogarasumaru.MidACC = set_combine(sets.TP.Kogarasumaru,{
-			legs="Sakonji Haidate +1",
-			head="Unkai Kabuto +2"})
+			back="Takaha Mantle",
+			waist="Windbuffet belt +1",
+			legs={ name="Otronif Brais +1", augments={'Phys. dmg. taken -3%','"Dbl.Atk."+2',}},
+			feet={ name="Otronif Boots +1", augments={'Phys. dmg. taken -3%','Magic dmg. taken -3%','"Dbl.Atk."+2',}},}
+	sets.TP.Kogarasumaru.AvgACC = set_combine(sets.TP.Kogarasumaru,{
+			ear2="Zennaroi Earring"})
+	sets.TP.Kogarasumaru.MidACC = set_combine(sets.TP.Kogarasumaru.AvgACC,{
+			waist="Olseni Belt",})
 	sets.TP.Kogarasumaru.HighACC = set_combine(sets.TP.Kogarasumaru.MidACC,{
-			neck="Iqabi Necklace",
-			ammo="Jukukik Feather",
-			ear1="Steelflash Earring",
-			ear2="Bladeborn Earring",
-			waist="Dynamic Belt +1",
-			head="Yaoyotl helm",
-			body="Sakonji domaru +1",
-			hands="Umuthi gloves",
-			feet="Wakido Sune-ate +1",
-			ring1="Mars's Ring",
-			ring2="Rajas ring"})
+			head={ name="Sakonji Kabuto +1", augments={'Enhances "Ikishoten" effect',}},
+			body={ name="Sakonji Domaru +1", augments={'Enhances "Overwhelm" effect',}},
+			hands="Wakido Kote +1",
+			legs={ name="Otronif Brais +1", augments={'Phys. dmg. taken -3%','"Dbl.Atk."+2',}},
+			feet="Waki. Sune-Ate +1",
+			neck="Dakatsu Nodowa",
+			waist="Olseni Belt",
+			left_ear="Tripudio Earring",
+			right_ear="Zennaroi Earring",
+			left_ring="K'ayres Ring",
+			right_ring="Rajas Ring",
+			back="Takaha Mantle",})
+		sets.TP.Kogarasumaru.OshiACC = set_combine(sets.TP.Kogarasumaru,{
+					head="Yaoyotl Helm",
+					body="Sakonji Domaru +1",
+					hands="Sakonji Kote +1",
+					legs="Unkai Haidate +2",
+					feet="Ejekamal Boots",
+					neck="Ganesha's Mala",
+					waist="Olseni Belt",
+					left_ear="Tripudio Earring",
+					right_ear="Zennaroi Earring",
+					left_ring="Mars's Ring",
+					right_ring="Rajas Ring",
+					back="Takaha Mantle",})
 			
 	-- Kogarasumaru(AM3) TP Sets --
 	sets.TP.Kogarasumaru.AM3 = set_combine(sets.TP.Kogarasumaru,{
 			head="Sakonji Kabuto +1",
-			ammo="Paeapua",
-			body="Sakonji domaru +1 +1",
-			waist="Windbuffet belt",
-			feet="Whirlpool greaves",
+			body="Sakonji Domaru +1",
+			waist="Windbuffet belt +1",
+			feet={ name="Otronif Boots +1", augments={'Phys. dmg. taken -3%','Magic dmg. taken -2%','Crit.hit rate+1',}},
+			legs={ name="Otronif Brais +1", augments={'Phys. dmg. taken -3%','Magic dmg. taken -3%','Crit.hit rate+1',}},
 			back="Takaha Mantle"})
-	sets.TP.Kogarasumaru.MidACC.AM3 = set_combine(sets.TP.Kogarasumaru.AM3,{
-			legs="Sakonji Haidate +1",
-			head="Unkai Kabuto +2"})
-	sets.TP.Kogarasumaru.HighACC.AM3 = set_combine(sets.TP.Kogarasumaru.MidACC.AM3,{
-			neck="Iqabi Necklace",
-			ammo="Jukukik Feather",
-			ear1="Steelflash Earring",
-			ear2="Bladeborn Earring",
-			waist="Dynamic Belt +1",
-			head="Yaoyotl helm",
-			body="Sakonji domaru +1",
-			hands="Umuthi gloves",
-			feet="Wakido Sune-ate +1",
-			ring1="Mars's Ring",
-			ring2="Rajas ring"})
+	sets.TP.Kogarasumaru.AvgACC.AM3 = set_combine(sets.TP.Kogarasumaru.AM3,{
+			ear2="Zennaroi Earring"})		
+			
+	sets.TP.Kogarasumaru.MidACC.AM3 = set_combine(sets.TP.Kogarasumaru.AvgACC.AM3,{
+			waist="Olseni Belt",
+			head="Yaoyotl Helm",})
+	sets.TP.Kogarasumaru.HighACC.AM3 = {
+				range={ name="Cibitshavore", augments={'STR+12','Rng.Acc.+10','"Store TP"+7',}},
+				head="Yaoyotl Helm",
+				body="Sakonji Domaru +1",
+				hands="Wakido Kote +1",
+				legs={ name="Otronif Brais +1", augments={'Phys. dmg. taken -3%','Magic dmg. taken -3%','Crit.hit rate+1',}},
+				feet={ name="Otronif Boots +1", augments={'Phys. dmg. taken -3%','Magic dmg. taken -2%','Crit.hit rate+1',}},
+				neck="Ganesha's Mala",
+				waist="Olseni Belt",
+				left_ear="Tripudio Earring",
+				right_ear="Zennaroi Earring",
+				left_ring="K'ayres Ring",
+				right_ring="Rajas Ring",
+				back="Takaha Mantle",}
+	sets.TP.Kogarasumaru.OshiACC.AM3 = set_combine(sets.TP.Kogarasumaru,{
+					head="Yaoyotl Helm",
+					body="Sakonji Domaru +1",
+					hands="Sakonji Kote +1",
+					legs="Unkai Haidate +2",
+					feet="Ejekamal Boots",
+					neck="Ganesha's Mala",
+					waist="Olseni Belt",
+					left_ear="Tripudio Earring",
+					right_ear="Zennaroi Earring",
+					left_ring="Mars's Ring",
+					right_ring="Rajas Ring",
+					back="Takaha Mantle",})
 			
 	-- Kogarasumaru(Ionis) TP Sets --
 	sets.TP.Kogarasumaru.Ionis =  set_combine(sets.TP.Kogarasumaru,{})
+	sets.TP.Kogarasumaru.AvgACC.Ionis = set_combine(sets.TP.Kogarasumaru.Ionis,{
+			ear2="Zennaroi Earring"})
 	sets.TP.Kogarasumaru.MidACC.Ionis = set_combine(sets.TP.Kogarasumaru.Ionis,{
-			legs="Sakonji Haidate +1",
-			head="Unkai Kabuto +2"})
+			waist="Olseni Belt",})
 	sets.TP.Kogarasumaru.HighACC.Ionis = set_combine(sets.TP.Kogarasumaru.MidACC.Ionis,{
-			neck="Iqabi Necklace",
-			ammo="Jukukik Feather",
+			neck="Dakatsu Nodowa",
 			ear1="Steelflash Earring",
 			ear2="Bladeborn Earring",
 			head="Yaoyotl helm",
 			body="Sakonji domaru +1",
-			back="Letalis Mantle",
-			waist="Dynamic Belt +1",
-			hands="Umuthi gloves",
+			back="Takaha Mantle",
+			legs="Unkai Haidate +2",
+			waist="Olseni Belt",
+			hands="Sakonji Kote +1",
 			feet="Wakido Sune-ate +1",
 			ring1="Mars's ring",
 			ring2="Rajas Ring"})
+	sets.TP.Kogarasumaru.OshiACC.Ionis = set_combine(sets.TP.Kogarasumaru,{
+					head="Yaoyotl Helm",
+					body="Sakonji Domaru +1",
+					hands="Sakonji Kote +1",
+					legs="Unkai Haidate +2",
+					feet="Ejekamal Boots",
+					neck="Ganesha's Mala",
+					waist="Olseni Belt",
+					left_ear="Tripudio Earring",
+					right_ear="Zennaroi Earring",
+					left_ring="Mars's Ring",
+					right_ring="Rajas Ring",
+					back="Takaha Mantle",})
+	
 
 	-- Kogarasumaru(AM3 + Ionis) TP Sets --
 	sets.TP.Kogarasumaru.AM3.Ionis = set_combine(sets.TP.Kogarasumaru.AM3,{})
-	sets.TP.Kogarasumaru.MidACC.AM3.Ionis = set_combine(sets.TP.Kogarasumaru.AM3.Ionis,{
-			legs="Sakonji Haidate +1",
-			head="Unkai Kabuto +2"})
-	sets.TP.Kogarasumaru.HighACC.AM3.Ionis = set_combine(sets.TP.Kogarasumaru.MidACC.AM3.Ionis,{
-			neck="Iqabi Necklace",
-			ammo="Jukukik Feather",
-			ear1="Steelflash Earring",
-			ear2="Bladeborn Earring",
-			head="Yaoyotl helm",
-			body="Sakonji domaru +1",
-			back="Letalis Mantle",
-			waist="Dynamic Belt +1",
-			hands="Umuthi gloves",
-			feet="Wakido Sune-ate +1",
-			ring1="Mars's ring",
+	sets.TP.Kogarasumaru.AvgACC.AM3.Ionis=set_combine(sets.TP.Kogarasumaru.AM3,{		
+			head="Yaoyotl Helm",
+			ear2="Zennaroi Earring",})
+	sets.TP.Kogarasumaru.MidACC.AM3.Ionis = set_combine(sets.TP.Kogarasumaru.AM3,{
+				range={ name="Cibitshavore", augments={'STR+12','Rng.Acc.+10','"Store TP"+7',}},
+				head="Yaoyotl Helm",
+				body="Sakonji Domaru +1",
+				hands="Wakido Kote +1",
+				legs={ name="Otronif Brais +1", augments={'Phys. dmg. taken -3%','Magic dmg. taken -3%','Crit.hit rate+1',}},
+				feet={ name="Otronif Boots +1", augments={'Phys. dmg. taken -3%','Magic dmg. taken -2%','Crit.hit rate+1',}},
+				neck="Ganesha's Mala",
+				waist="Olseni Belt",
+				left_ear="Tripudio Earring",
+				right_ear="Zennaroi Earring",
+				left_ring="K'ayres Ring",
+				right_ring="Rajas Ring",
+				back="Takaha Mantle",})
+	sets.TP.Kogarasumaru.HighACC.AM3.Ionis = set_combine(sets.TP.Kogarasumaru.AM3,{
+				head="Yaoyotl Helm",
+				body="Sakonji Domaru +1",
+				hands="Sakonji Kote +1",
+				legs="Unkai Haidate +2",
+				feet={ name="Otronif Boots +1", augments={'Phys. dmg. taken -3%','Magic dmg. taken -2%','Crit.hit rate+1',}},
+				neck="Dakatsu Nodowa",
+				waist="Olseni Belt",
+				left_ear="Tripudio Earring",
+				right_ear="Zennaroi Earring",
+				left_ring="K'ayres Ring",
+				right_ring="Rajas Ring",
+				back="Takaha Mantle",})
+	sets.TP.Kogarasumaru.OshiACC.AM3.Ionis = set_combine(sets.TP.Kogarasumaru.AM3,{
+					head="Yaoyotl Helm",
+					body="Sakonji Domaru +1",
+					hands="Sakonji Kote +1",
+					legs="Unkai Haidate +2",
+					feet="Ejekamal Boots",
+					neck="Dakatsu Nodowa",
+					waist="Olseni Belt",
+					left_ear="Tripudio Earring",
+					right_ear="Zennaroi Earring",
+					left_ring="Mars's Ring",
+					right_ring="Rajas Ring",
+					back="Takaha Mantle",})
+			
+	sets.TP.Kogarasumaru.AM3.STP = set_combine(sets.TP.Kogarasumaru.AM3.Ionis,{})
+	sets.TP.Kogarasumaru.AvgACC.AM3.STP =set_combine(sets.TP.Kogarasumaru.AM3.Ionis,{		
+			ear2="Zennaroi Earring"})
+	sets.TP.Kogarasumaru.MidACC.AM3.STP = set_combine(sets.TP.Kogarasumaru.AM3.Ionis,{
+			ear2="Zennaroi Earring",
+			legs="Xaddi Cuisses"})
+	sets.TP.Kogarasumaru.HighACC.AM3.STP = set_combine(sets.TP.Kogarasumaru.AM3.Ionis,{
+			neck="Dakatsu Nodowa",
+			ear1="Tripudio Earring",
+			ear2="Zennaroi Earring",
+			head="Yaoyotl Helm",
+			legs="Xaddi Cuisses",
+			body="Sakonji Domaru +1",
+			back="Takaha Mantle",
+			waist="Olseni Belt",
+			hands="Wakido Kote +1",
+			feet="Ejekamal Boots",
+			ring1="Mars's Ring",
+			ring2="Rajas Ring",})
+		sets.TP.Kogarasumaru.OshiACC.AM3.STP = set_combine(sets.TP.Kogarasumaru,{
+					head="Yaoyotl Helm",
+					body="Sakonji Domaru +1",
+					hands="Sakonji Kote +1",
+					legs="Unkai Haidate +2",
+					feet="Ejekamal Boots",
+					neck="Ganesha's Mala",
+					waist="Olseni Belt",
+					left_ear="Tripudio Earring",
+					right_ear="Zennaroi Earring",
+					left_ring="Mars's Ring",
+					right_ring="Rajas Ring",
+					back="Takaha Mantle",})
+
+			
+	sets.TP.Kogarasumaru.AM3.Ionis.STP = set_combine(sets.TP.Kogarasumaru.AM3.Ionis,{})
+	sets.TP.Kogarasumaru.AvgACC.AM3.Ionis.STP =set_combine(sets.TP.Kogarasumaru.AM3.Ionis,{		
+			ear2="Zennaroi Earring"})
+	sets.TP.Kogarasumaru.MidACC.AM3.Ionis.STP = set_combine(sets.TP.Kogarasumaru.AM3.Ionis,{
+			ear2="Zennaroi Earring",
+			legs="Xaddi Cuisses"})
+	sets.TP.Kogarasumaru.HighACC.AM3.Ionis.STP = set_combine(sets.TP.Kogarasumaru.AM3.Ionis,{
+			neck="Dakatsu Nodowa",
+			ear1="Tripudio Earring",
+			ear2="Brutal Earring",
+			head="Yaoyotl Helm",
+			legs="Xaddi Cuisses",
+			body="Sakonji Domaru +1",
+			back="Takaha Mantle",
+			waist="Olseni Belt",
+			hands="Wakido Kote +1",
+			feet="Ejekamal Boots",
+			ring1="Mars's Ring",
 			ring2="Rajas Ring"})
+	sets.TP.Kogarasumaru.OshiACC.AM3.Ionis.STP = set_combine(sets.TP.Kogarasumaru.AM3.Ionis,{
+					head="Yaoyotl Helm",
+					body="Sakonji Domaru +1",
+					hands="Sakonji Kote +1",
+					legs="Unkai Haidate +2",
+					feet="Ejekamal Boots",
+					neck="Ganesha's Mala",
+					waist="Olseni Belt",
+					left_ear="Tripudio Earring",
+					right_ear="Zennaroi Earring",
+					left_ring="Mars's Ring",
+					right_ring="Rajas Ring",
+					back="Takaha Mantle",})
+
 
 	-- Tsurumaru TP Sets --
 	
@@ -174,9 +328,9 @@ function get_sets()
 			body="Sakonji domaru +1",
 			hands="Wakido Kote +1",
 			legs="Wakido Haidate +1",
-			feet="Otronif Boots +1",
+			feet={ name="Otronif Boots +1", augments={'Phys. dmg. taken -3%','Magic dmg. taken -3%','"Dbl.Atk."+2',}},
 			neck="Ganesha's Mala",
-			waist="Windbuffet Belt",
+			waist="Windbuffet belt +1",
 			left_ear="Trux Earring",
 			right_ear="Brutal Earring",
 			left_ring="Rajas Ring",
@@ -195,34 +349,35 @@ function get_sets()
 			body="Sakonji Domaru +1",
 			hands="Wakido Kote +1",
 			legs="Wakido Haidate +1",
-			feet="Otronif Boots +1",
+			feet={ name="Otronif Boots +1", augments={'Phys. dmg. taken -3%','Magic dmg. taken -3%','"Dbl.Atk."+2',}},
 			neck="Iqabi Necklace",
-			waist="Dynamic Belt",
+			waist="Olseni Belt",
 			left_ear="Bladeborn Earring",
 			right_ear="Steelflash Earring",
 			back="Takaha Mantle"})
 	sets.TP.Tsurumaru.HighACC = set_combine(sets.TP.Tsurumaru.MidACC,{
 			neck="Dakatsu-no-nodowa",
 			body="Xaddi Mail",
-			legs="Otronif brais +1",
+			legs={ name="Otronif Brais +1", augments={'Phys. dmg. taken -3%','"Dbl.Atk."+2',}},
 			back="Takaha Mantle",
-			waist="Dynamic Belt",
-			left_ear="Steelflash Earring",
-			right_ear="Bladeborn Earring",
+			waist="Olseni Belt",
+			left_ear="Tripudio Earring",
+			right_ear="Zennaroi Earring",
 			hands="Wakido kote +1",
-			feet="Otronif Boots +1",
+			feet={ name="Otronif Boots +1", augments={'Phys. dmg. taken -3%','Magic dmg. taken -3%','"Dbl.Atk."+2',}},
 			ring2="Mars's ring",
 			ring1="Rajas Ring"})
+	sets.TP.Tsurumaru.OshiACC = set_combine(sets.TP.Tsurumaru.OshiACC,{})
 
 	-- Tsurumaru(Ionis) TP Sets --
 	sets.TP.Tsurumaru.Ionis ={
     head="Otomi Helm",
-    body="Sakonji Domaru +1",
+    body="Xaddi Mail",
     hands="Wakido Kote +1",
-    legs="Otronif Brais +1",
-    feet="Otronif Boots +1",
+    legs={ name="Otronif Brais +1", augments={'Phys. dmg. taken -3%','"Dbl.Atk."+2',}},
+    feet={ name="Otronif Boots +1", augments={'Phys. dmg. taken -3%','Magic dmg. taken -3%','"Dbl.Atk."+2',}},
     neck="Ganesha's Mala",
-    waist="Windbuffet Belt",
+    waist="Windbuffet belt +1",
     left_ear="Trux Earring",
     right_ear="Brutal Earring",
     left_ring="Rajas Ring",
@@ -236,22 +391,23 @@ function get_sets()
 	sets.TP.Tsurumaru.MidACC.Ionis = set_combine(sets.TP.Tsurumaru.AvgACC.Ionis,{
                         neck="Iqabi Necklace",
                         back="Takaha Mantle",
-                        waist="Dynamic Belt",
+                        waist="Olseni Belt",
                         feet="Wakido Sune-ate +1"})
 	sets.TP.Tsurumaru.HighACC.Ionis ={  
 	sub="Bloodrain Strap",
 	head="Yaoyotl Helm",
-    body="Sakonji Domaru +1",
+    body="Xaddi Mail",
     hands="Sakonji Kote +1",
     legs="Unkai Haidate +2",
     feet="Waki. Sune-Ate +1",
     neck="Dakatsu Nodowa",
-    waist="Dynamic Belt",
-    left_ear="Steelflash Earring",
-    right_ear="Bladeborn Earring",
+    waist="Olseni Belt",
+			left_ear="Brutal Earring",
+			right_ear="Zennaroi Earring",
     left_ring="Rajas Ring",
     right_ring="Patricius Ring",
     back="Letalis Mantle"}
+	sets.TP.Tsurumaru.OshiACC.Ionis = set_combine(sets.TP.Tsurumaru.OshiACC.Ionis,{})
 
 	-- Amanomurakumo TP Sets --
 	sets.TP.Amanomurakumo = {
@@ -264,8 +420,8 @@ function get_sets()
 			ring1="K'ayres Ring",
 			ring2="Rajas Ring",
 			back="Misuuchi Kappa",
-			waist="Windbuffet Belt",
-			legs="Otronif Brais +1",
+			waist="Windbuffet belt +1",
+			legs={ name="Otronif Brais +1", augments={'Phys. dmg. taken -3%','"Dbl.Atk."+2',}},
 			feet="Sakonji Sune-Ate +1"}
 			
 	sets.TP.Amanomurakumo.AvgACC = set_combine(sets.TP.Amanomurakumo,{
@@ -275,7 +431,7 @@ function get_sets()
 	sets.TP.Amanomurakumo.MidACC = set_combine(sets.TP.Amanomurakumo.AvgACC,{
 			legs="Sakonji Haidate +1",
 			head="Sakonji Kabuto +1",
-			waist="Dynamic Belt"})
+			waist="Olseni Belt",})
 	sets.TP.Amanomurakumo.HighACC = set_combine(sets.TP.Amanomurakumo.MidACC,{
 			neck="Iqabi Necklace",
 			ear1="Steelflash Earring",
@@ -295,7 +451,7 @@ function get_sets()
 	sets.TP.Amanomurakumo.MidACC.AM = set_combine(sets.TP.Amanomurakumo.AvgACC.AM,{
 			legs="Sakonji Haidate +1",
 			head="Unkai Kabuto +2",
-			waist="Dynamic Belt",
+			waist="Olseni Belt",
 			back="Takaha Mantle"})
 	sets.TP.Amanomurakumo.HighACC.AM = set_combine(sets.TP.Amanomurakumo.MidACC.AM,{
 			neck="Iqabi Necklace",
@@ -304,7 +460,7 @@ function get_sets()
 			head="Yaoyotl helm",
 			body="Sakonji domaru +1",
 			back="Letalis Mantle",
-			waist="Dynamic Belt +1",
+			waist="Olseni Belt",
 			hands="Umuthi gloves",
 			feet="Wakido Sune-ate +1",
 			ring1="Mars's ring",
@@ -318,7 +474,7 @@ function get_sets()
 	sets.TP.Amanomurakumo.MidACC.Ionis = set_combine(sets.TP.Amanomurakumo.AvgACC.Ionis,{
 			legs="Sakonji Haidate +1",
 			head="Unkai Kabuto +2",
-			waist="Dynamic Belt",
+			waist="Olseni Belt",
 			back="Takaha Mantle"})
 	sets.TP.Amanomurakumo.HighACC.Ionis = set_combine(sets.TP.Amanomurakumo.MidACC.Ionis,{
 			neck="Iqabi Necklace",
@@ -327,7 +483,7 @@ function get_sets()
 			head="Yaoyotl helm",
 			body="Sakonji domaru +1",
 			back="Letalis Mantle",
-			waist="Dynamic Belt +1",
+			waist="Olseni Belt",
 			hands="Umuthi gloves",
 			feet="Wakido Sune-ate +1",
 			ring1="Mars's ring",
@@ -341,7 +497,7 @@ function get_sets()
 	sets.TP.Amanomurakumo.MidACC.AM.Ionis = set_combine(sets.TP.Amanomurakumo.AvgACC.Ionis,{
 			legs="Sakonji Haidate +1",
 			head="Unkai Kabuto +2",
-			waist="Dynamic Belt",
+			waist="Olseni Belt",
 			back="Takaha Mantle"})
 	sets.TP.Amanomurakumo.HighACC.AM.Ionis = set_combine(sets.TP.Amanomurakumo.MidACC.AM.Ionis,{
 			neck="Iqabi Necklace",
@@ -351,7 +507,7 @@ function get_sets()
 			head="Yaoyotl helm",
 			body="Sakonji domaru +1",
 			back="Letalis Mantle",
-			waist="Dynamic Belt +1",
+			waist="Olseni Belt",
 			hands="Umuthi gloves",
 			feet="Wakido Sune-ate +1",
 			ring1="Mars's ring",
@@ -369,14 +525,14 @@ function get_sets()
 			ring1="K'ayres Ring",
 			ring2="Rajas Ring",
 			back="Misuuchi Kappa",
-			waist="Windbuffet Belt",
-			legs="Otronif Brais +1",
+			waist="Windbuffet belt +1",
+			legs={ name="Otronif Brais +1", augments={'Phys. dmg. taken -3%','"Dbl.Atk."+2',}},
 			feet="Sakonji Sune-Ate +1"}
 	sets.TP.Masamune.AvgACC= set_combine(sets.TP.Masamune,{})
 	sets.TP.Masamune.MidACC = set_combine(sets.TP.Masamune,{
 			head="Yaoyotl Helm",
 			back="Takaha Mantle",
-			waist="Dynamic Belt +1",
+			waist="Olseni Belt",
 			feet="Whirlpool Greaves"})
 	sets.TP.Masamune.HighACC = set_combine(sets.TP.Masamune.MidACC,{
 			neck="Iqabi Necklace",
@@ -394,7 +550,7 @@ function get_sets()
 			ear1="Steelflash Earring",
 			ear2="Bladeborn Earring",
 			back="Takaha Mantle",
-			waist="Dynamic Belt +1",
+			waist="Olseni Belt",
 			feet="Whirlpool Greaves"})
 	sets.TP.Masamune.HighACC.Ionis = set_combine(sets.TP.Masamune.MidACC.Ionis,{
 			neck="Iqabi Necklace",
@@ -405,10 +561,12 @@ function get_sets()
 
 	-- Seigan Set --
 	sets.TP.Seigan = {
-			  head="Unkai Kabuto +2",
+			  head="Unkai Kabuto +1",
 			  legs="Sakonji Haidate"}
 
 	-- PDT/MDT Sets --
+	
+	sets.misc = {hands="Unkai Kote +1"}
 	sets.PDT = {
 			head="Lithelimb Cap",	
 			neck="Twilight Torque",
@@ -420,17 +578,17 @@ function get_sets()
 			ring2="Patricius Ring",
 			back="Shadow mantle",
 			waist="Flume Belt",
-			legs="Otronif Brais",
+			legs={ name="Otronif Brais +1", augments={'Phys. dmg. taken -3%','"Dbl.Atk."+2',}},
 			feet="Otronif Boots +1"}
 			
 		sets.Range = {
     head="Sakonji Kabuto +1",
-    body="kyujutsugi",
+    body="Kyujutsugi",
     hands="Buremte Gloves",
     legs="Wakido Haidate +1",
     feet="Wakido Sune-ate +1",
     neck="Iqabi Necklace",
-    waist="Dynamic Belt",
+    waist="Olseni Belt",
     left_ear="Flame Pearl",
     right_ear="Flame Pearl",
     left_ring="Hajduk Ring",
@@ -438,16 +596,15 @@ function get_sets()
     back="Thall Mantle",}
 
 	sets.MDT = set_combine(sets.PDT,{
-			ammo="Vanir Battery",
 			ear1="Merman's earring",
 			ear2="Merman's earring",
 			body="Mekira Meikogai",
-			hands="Umuthi gloves",
+			hands="Buremte gloves",
 			ring1="Archon Ring",
 			back="Engulfer cape",
 			waist="Resolute Belt",
-			legs="Otronif Brais +1",
-			feet="Whirlpool greaves"})
+			legs={ name="Otronif Brais +1", augments={'Phys. dmg. taken -3%','"Dbl.Atk."+2',}},
+			feet="Otronif Boots +1"})
 
 	-- Hybrid Sets --
 	sets.TP.Hybrid = set_combine(sets.PDT,{
@@ -457,6 +614,7 @@ function get_sets()
 			feet="Sakonji Sune-Ate +1"})
 	sets.TP.Hybrid.MidACC = set_combine(sets.TP.Hybrid,{})
 	sets.TP.Hybrid.HighACC = set_combine(sets.TP.Hybrid.MidACC,{})
+	sets.TP.Hybrid.OshiACC = set_combine(sets.TP.Hybrid.HighACC,{})
 
 	-- WS Base Set --
 	sets.WS = {
@@ -465,24 +623,24 @@ function get_sets()
 			ear1="Brutal Earring",
 			ear2="Moonshade earring",
 			body="Phorcys Korazin",
-			hands="Boor Bracelets",
-			ring1="Pyrosoul Ring",
-			ring2="Pyrosoul Ring",
-			back="Buquwik Cape",
-			waist="Windbuffet Belt",
+			hands="Miki. Gauntlets",
+			ring1="Ifrit Ring +1",
+			ring2="Ifrit Ring",
+			back="Takaha Mantle",
+			waist="Windbuffet belt +1",
 			legs="Wakido Haidate +1",
 			feet="Sak. Sune-ate +1"}
 
 	-- WS Sets --
 	
-	sets.WS["Tachi: Jinpu"] = {    
+	sets.WS['Tachi: Jinpu'] = {    
 	range={ name="Cibitshavore", augments={'STR+10','Rng.Acc.+8','"Store TP"+3',}},
     ammo="Tulfaire Arrow",
     head={ name="Sakonji Kabuto +1", augments={'Enhances "Ikishoten" effect',}},
     body="Phorcys Korazin",
-    hands={ name="Miki. Gauntlets", augments={'Attack+15','Accuracy+10','STR+10',}},
+    hands={name="Miki. Gauntlets", augments={'Attack+15','Accuracy+10','STR+10',}},
     legs="Wakido Haidate +1",
-    feet={ name="Sakonji Sune-Ate +1", augments={'Phys. dmg. taken -2%','Attack+5',}},
+    feet="Sakonji Sune-Ate +1",
     neck="Ganesha's Mala",
     waist="Snow Belt",
     left_ear="Friomisi Earring",
@@ -491,101 +649,79 @@ function get_sets()
     right_ring="K'ayres Ring",
     back="Toro Cape",
 }
-	sets.WS["Tachi: Jinpu"].AvgACC = set_combine(sets.WS["Tachi: Jinpu"])
-	sets.WS["Tachi: Jinpu"].MidACC = set_combine(sets.WS["Tachi: Jinpu"])
-	sets.WS["Tachi: Jinpu"].HighACC = set_combine(sets.WS["Tachi: Jinpu"])
+	sets.WS['Tachi: Jinpu'].AvgACC = set_combine(sets.WS['Tachi: Jinpu'])
+	sets.WS['Tachi: Jinpu'].MidACC = set_combine(sets.WS['Tachi: Jinpu'])
+	sets.WS['Tachi: Jinpu'].HighACC = set_combine(sets.WS['Tachi: Jinpu'])
+	sets.WS['Tachi: Jinpu'].OshiACC = set_combine(sets.WS['Tachi: Jinpu'])
 	
 	
-	sets.WSFudo = {
-			head="Otomi Helm",
-			neck="Snow Gorget",
+
+	
+	sets.WS['Tachi: Fudo'] = {
+		head="Otomi Helm",
+			neck="Justiciar's Torque",
 			ear2="Brutal Earring",
 			ear1="Moonshade earring",
 			body="Phorcys Korazin",
 			hands="Boor Bracelets",
-			ring1="Pyrosoul Ring",
-			ring2="Pyrosoul Ring",
+			ring2="Ifrit Ring +1",
+			ring1="Ifrit Ring",
 			back="Buquwik Cape",
-			waist="Prosilio Belt",
-			legs="Wakido Haidate +1",
+			waist="Prosilio Belt +1",
+			legs="Scuffler's Cosciales",
 			feet="Sak. Sune-ate +1"}
-	sets.WSFudo.AvgACC = set_combine(sets.WSFudo,{
+	sets.WS['Tachi: Fudo'].AvgACC = set_combine(sets.WS['Tachi: Fudo'],{
 			hands="Miki. Gauntlets",})
-	sets.WSFudo.MidACC = set_combine(sets.WSFudo,{
+	sets.WS['Tachi: Fudo'].MidACC = set_combine(sets.WS['Tachi: Fudo'],{
 			head="Yaoyotl Helm",
 			hands="Miki. Gauntlets",
-			feet="Wakido Sune-ate +1"})
-	sets.WSFudo.HighACC = set_combine(sets.WSFudo.MidACC,{
+			feet="Wakido Sune-ate +1",
+			neck="Snow Gorget"})
+	sets.WS['Tachi: Fudo'].HighACC = set_combine(sets.WS['Tachi: Fudo'].MidACC,{
 			back="Takaha Mantle",
-			legs="Wakido Haidate +1",
-			ring2="Rajas Ring",
-			waist="Snow Belt"})
+			ring1="Rajas Ring",
+			ear1="Moonshade Earring",
+			ear2="Zennaroi Earring"})
+	sets.WS['Tachi: Fudo'].OshiACC = set_combine(sets.WS['Tachi: Fudo'].HighACC,{
+			legs="Wukong's Hakama +1"})
 
-	
-	
-	sets.WS["Tachi: Fudo"] = {
-			head="Otomi Helm",
-			neck="Snow Gorget",
-			ear2="Brutal Earring",
-			ear1="Moonshade earring",
-			body="Phorcys Korazin",
-			hands="Boor Bracelets",
-			ring1="Pyrosoul Ring",
-			ring2="Pyrosoul Ring",
-			back="Buquwik Cape",
-			waist="Prosilio Belt",
-			legs="Wakido Haidate +1",
-			feet="Sak. Sune-ate +1"}
-	sets.WS["Tachi: Fudo"].AvgACC = set_combine(sets.WS["Tachi: Fudo"],{
-			hands="Miki. Gauntlets",})
-	sets.WS["Tachi: Fudo"].MidACC = set_combine(sets.WS["Tachi: Fudo"],{
-			head="Yaoyotl Helm",
-			hands="Miki. Gauntlets",
-			feet="Wakido Sune-ate +1"})
-	sets.WS["Tachi: Fudo"].HighACC = set_combine(sets.WS["Tachi: Fudo"].MidACC,{
-			back="Takaha Mantle",
-			legs="Wakido Haidate +1",
-			ring2="Rajas Ring",
-			waist="Snow Belt"})
-
-	sets.WS["Tachi: Shoha"] = {
+	sets.WS['Tachi: Shoha'] = {
 			head="Otomi Helm",
 			neck="Breeze Gorget",
 			ear2="Brutal Earring",
 			ear1="Moonshade Earring",
-			body="Sakonji Domaru +1",
+			body="Phorcy's Korazin",
 			hands="Boor Bracelets",
-			ring1="Pyrosoul Ring",
-			ring2="Pyrosoul Ring",
+			ring1="Ifrit Ring +1",
+			ring2="Ifrit Ring",
 			back="Buquwik Cape",
-			waist="Windbuffet Belt",
+			waist="Windbuffet belt +1",
 			legs="Wakido Haidate +1",
-			feet="Sak. Sune-ate +1"}
-	sets.WS["Tachi: Shoha"].AvgACC = set_combine(sets.WS["Tachi: Shoha"],{
-			hands={ name="Miki. Gauntlets", augments={'Attack+15','Accuracy+10','STR+10',}},
-			legs={ name="Miki. Cuisses", augments={'Attack+15','Accuracy+10','STR+10',}}})
+			feet="Ejekamal Boots"}
+	sets.WS['Tachi: Shoha'].AvgACC = set_combine(sets.WS['Tachi: Shoha'],{
+			hands="Miki. Gauntlets",
+			legs="Miki. Cuisses",})
 	
-	sets.WS["Tachi: Shoha"].MidACC = set_combine(sets.WS["Tachi: Shoha"],{
-			range="Cibitshavore",
-			ammo="Tulfaire Arrow",
+	sets.WS['Tachi: Shoha'].MidACC = set_combine(sets.WS['Tachi: Shoha'],{
 			head="Yaoyotl Helm",
-			body={ name="Sakonji Domaru +1", augments={'Enhances "Overwhelm" effect',}},
-			hands={ name="Miki. Gauntlets", augments={'Attack+15','Accuracy+10','STR+10',}},
-			legs={ name="Miki. Cuisses", augments={'Attack+15','Accuracy+10','STR+10',}},
+			body="Sakonji Domaru +1",
+			hands="Miki. Gauntlets",
+			legs="Miki. Cuisses",
 			feet="Wakido Sune-ate +1",
 			neck="Breeze Gorget",
-			waist="Windbuffet Belt",
+			waist="Windbuffet belt +1",
 			right_ear="Brutal Earring",
-			left_ear={ name="Moonshade Earring", augments={'Attack+4','TP Bonus +25',}},
-			left_ring="Pyrosoul Ring",
+			left_ear="Moonshade Earring",
+			left_ring="Ifrit Ring +1",
 			right_ring="Rajas Ring",
 			back="Letalis Mantle",})
-	sets.WS["Tachi: Shoha"].HighACC = set_combine(sets.WS["Tachi: Shoha"].MidACC,{
+	sets.WS['Tachi: Shoha'].HighACC = set_combine(sets.WS['Tachi: Shoha'].MidACC,{
 			body="Sakonji domaru +1",
 			back="Letalis Mantle",
 			legs="Wakido Haidate"})
+	sets.WS['Tachi: Shoha'].OshiACC = set_combine(sets.WS['Tachi: Shoha'].HighACC,{})
 
-	sets.WS["Tachi: Kaiten"] = {
+	sets.WS['Tachi: Kaiten'] = {
 			ammo="Cheruski Needle",
 			head="Otomi Helm",
 			neck="Light Gorget",
@@ -593,23 +729,23 @@ function get_sets()
 			ear2="Bladeborn Earring",
 			body="Phorcys Korazin",
 			hands="Boor Bracelets",
-			ring1="Pyrosoul Ring",
-			ring2="Pyrosoul Ring",
+			ring1="Ifrit Ring +1",
+			ring2="Ifrit Ring +1",
 			back="Buquwik Cape",
 			waist="Light Belt",
 			legs="Wakido Haidate +1",
 			feet="Sak. Sune-ate +1"}
-	sets.WS["Tachi: Kaiten"].AvgACC = set_combine(sets.WS["Tachi: Kaiten"],{})
-	sets.WS["Tachi: Kaiten"].MidACC = set_combine(sets.WS["Tachi: Kaiten"],{
+	sets.WS['Tachi: Kaiten'].AvgACC = set_combine(sets.WS['Tachi: Kaiten'],{})
+	sets.WS['Tachi: Kaiten'].MidACC = set_combine(sets.WS['Tachi: Kaiten'],{
 			head="Yaoyotl Helm",
 			hands="Miki. Gauntlets",
 			feet="Whirlpool Greaves"})
-	sets.WS["Tachi: Kaiten"].HighACC = set_combine(sets.WS["Tachi: Kaiten"].MidACC,{
+	sets.WS['Tachi: Kaiten'].HighACC = set_combine(sets.WS['Tachi: Kaiten'].MidACC,{
 			feet="Wakido Sune-ate +1",
 			back="Letalis Mantle",
 			ring1="Mars's ring"})
 
-	sets.WS["Tachi: Rana"] = {
+	sets.WS['Tachi: Rana'] = {
 			ammo="Cheruski Needle",
 			head="Otomi Helm",
 			neck="Ganesha's mala",
@@ -617,23 +753,24 @@ function get_sets()
 			ear2="Moonshade Earring",
 			body="Phorcys Korazin",
 			hands="Boor Bracelets",
-			ring1="Pyrosoul Ring",
-			ring2="Pyrosoul Ring",
+			ring1="Ifrit Ring +1",
+			ring2="Ifrit Ring +1",
 			back="Buquwik Cape",
-			waist="Windbuffet belt",
+			waist="Windbuffet belt +1",
 			legs="Wakido Haidate +1",
 			feet="Sak. Sune-ate +1"}
-	sets.WS["Tachi: Rana"].AvgACC = set_combine(sets.WS["Tachi: Rana"],{})
-	sets.WS["Tachi: Rana"].MidACC = set_combine(sets.WS["Tachi: Rana"],{
+	sets.WS['Tachi: Rana'].AvgACC = set_combine(sets.WS['Tachi: Rana'],{})
+	sets.WS['Tachi: Rana'].MidACC = set_combine(sets.WS['Tachi: Rana'],{
 			head="Yaoyotl Helm",
 			hands="Miki. Gauntlets",
 			feet="Whirlpool Greaves"})
-	sets.WS["Tachi: Rana"].HighACC = set_combine(sets.WS["Tachi: Rana"].MidACC,{
+	sets.WS['Tachi: Rana'].HighACC = set_combine(sets.WS['Tachi: Rana'].MidACC,{
 			body="Sakonji domaru +1",
 			back="Takaha Mantle",
 			legs="Miki. Cuisses"})
+	sets.WS['Tachi: Rana'].OshiACC = set_combine(sets.WS['Tachi: Rana'].HighACC,{})
 
-	sets.WS["Namas Arrow"] = {
+	sets.WS['Namas Arrow'] = {
 			ammo="Tulfaire Arrow",
 			head="Sakonji Kabuto +1",
 			neck="Light Gorget",
@@ -641,44 +778,46 @@ function get_sets()
 			ear2="Vulcan's Pearl",
 			body="Phorcys Korazin",
 			hands="Unkai Kote +2",
-			ring1="Pyrosoul Ring",
-			ring2="Pyrosoul Ring",
+			ring1="Ifrit Ring +1",
+			ring2="Ifrit Ring +1",
 			back="Buquwik Cape",
 			waist="Light belt",
 			legs="Wakido Haidate +1",
 			feet="Wakido Sune-ate +1"}
-	sets.WS["Namas Arrow"].MidACC = set_combine(sets.WS["Namas Arrow"],{
+	sets.WS['Namas Arrow'].MidACC = set_combine(sets.WS['Namas Arrow'],{
 			body="Phorcys korazin"})
-	sets.WS["Namas Arrow"].HighACC = set_combine(sets.WS["Namas Arrow"].MidACC,{
+	sets.WS['Namas Arrow'].HighACC = set_combine(sets.WS['Namas Arrow'].MidACC,{
 			ring1="Hajduk Ring +1",
 			ring2="Hajduk Ring +1",
 			ear1="Altdorf's earring",
 			ear2="Willhelm's earring",
 			back="Jaeger Mantle"})
+	sets.WS['Namas Arrow'].OshiACC = set_combine(sets.WS['Namas Arrow'].HighACC,{})
 
-	sets.WS["Apex Arrow"] = { 
+	sets.WS['Apex Arrow'] = { 
     head="Sakonji Kabuto +1",
-    body="kyujutsugi",
+    body="Kyujutsugi",
     hands="Buremte Gloves",
     legs="Wakido Haidate +1",
     feet="Wakido Sune-ate +1",
     neck="Breeze Gorget",
-    waist="Dynamic Belt",
+    waist="Olseni Belt",
     left_ear="Flame Pearl",
     right_ear="Flame Pearl",
     left_ring="Hajduk Ring",
     right_ring="Hajduk Ring",
     back="Thall Mantle",
 }
-	sets.WS["Apex Arrow"].AvgACC = set_combine(sets.WS["Apex Arrow"],{})
-	sets.WS["Apex Arrow"].MidACC = set_combine(sets.WS["Apex Arrow"],{})
-	sets.WS["Apex Arrow"].HighACC = set_combine(sets.WS["Apex Arrow"].MidACC,{})
+	sets.WS['Apex Arrow'].AvgACC = set_combine(sets.WS['Apex Arrow'],{})
+	sets.WS['Apex Arrow'].MidACC = set_combine(sets.WS['Apex Arrow'],{})
+	sets.WS['Apex Arrow'].HighACC = set_combine(sets.WS['Apex Arrow'].MidACC,{})
+	sets.WS['Apex Arrow'].OshiACC = set_combine(sets.WS['Apex Arrow'].MidACC,{})
 
 	-- JA Sets --
 	sets.JA = {}
-	sets.JA["Meditate"] = {head="Wakido Kabuto",hands="Sakonji Kote +1"}
-	sets.JA["Warding Circle"] = {head="Wakido Kabuto"}
-	sets.JA["Meikyo Shisui"] = {feet="Sak. Sune-Ate +1"}
+	sets.JA['Meditate'] = {head="Wakido Kabuto",hands="Sakonji Kote +1"}
+	sets.JA['Warding Circle'] = {head="Wakido Kabuto"}
+	sets.JA['Meikyo Shisui'] = {feet="Sak. Sune-Ate +1"}
 	sets.Waltz = {}
 
 	-- Magic Sets --
@@ -695,7 +834,7 @@ function get_sets()
 			head="Wakido Kabuto",
 			body="Sakonji domaru +1 +1",
 			hands="Sao. Kote +2",
-			waist="Dynamic Belt +1",
+			waist="Olseni Belt",
 			legs="Wakido Haidate +1",
 			feet="Whirlpool Greaves"})
 end
@@ -703,6 +842,7 @@ end
     ranged_ws = S{"Flaming Arrow", "Piercing Arrow", "Dulling Arrow", "Sidewinder", "Arching Arrow",
 	"Empyreal Arrow", "Refulgent Arrow", "Apex Arrow", "Namas Arrow", "Jishnu's Radiance", "Hot Shot", 
 	"Split Shot", "Sniper Shot", "Slug Shot", "Heavy Shot", "Detonator", "Last Stand", "Trueflight","Wildfire"}
+
 
 function pretarget(spell,action)
 	if player.status ~= 'Engaged' then 
@@ -747,11 +887,19 @@ function precast(spell,action)
 				equipSet = set_combine(equipSet,{feet="Unkai Sune-ate +2"})
 				add_to_chat(8, 'Weapon Day Bonus')
 			end
-			if (spell.english == "Tachi: Fudo" or spell.english == "Tachi: Shoha") and (player.tp > 2999 or buffactive.Sekkanoki or (player.tp > 1999 and buffactive.Hagakure)) then -- Equip Vulcan's Pearl When You Have 300 TP or Sekkanoki On or 200+ TP For Hagakure --
+		--[[	if WS:contains(spell.name) and (player.tp > 2999 or buffactive.Sekkanoki or (player.tp > 1999 and buffactive.Hagakure)) 
 				equipSet = set_combine(equipSet,{ear1="Vulcan's Pearl"})
-			end
-			if (spell.english == "Tachi: Fudo") and (player.tp > 1010 and buffactive.Berserk) then -- Equip Vulcan's Pearl When You Have 300 TP or Sekkanoki On or 200+ TP For Hagakure --
-				equipSet = set_combine(equipSet,{waist="Metalsinger Belt"})
+			end--]]
+			if (spell.english == "Tachi: Fudo") then
+				if pDIF > 2.1 then
+					if	AccIndex == 3 or AccIndex == 4 then
+					equipSet = set_combine(equipSet,{waist="Snow Belt",neck="Snow Gorget"})
+					else 
+					equipSet = set_combine(equipSet,{waist="Prosilio Belt +1",neck="Justiciar's Torque"})
+					end
+				else
+				equipSet = set_combine(equipSet,{waist="Prosilio Belt +1",neck="Justiciar's Torque"})				
+				end
 			end
 			if (spell.english == "Tachi: Fudo") then
 			
@@ -807,7 +955,12 @@ function midcast(spell,action)
 	end
 end
 
-fudoDays = S{'Lightsday','Windsday','Lightningday','Firesday','Iceday','Watersday'}
+
+
+				
+
+WS			= S{'Tachi: Fudo','Tachi: Shoha'}
+fudoDays 	= S{'Lightsday','Windsday','Lightningday','Firesday','Iceday','Watersday'}
 
 function aftercast(spell,action)
 	if spell.type == "WeaponSkill" then
@@ -828,13 +981,15 @@ function status_change(new,old)
 		equip(sets.PDT)
 	elseif Armor == 'MDT' then
 		equip(sets.MDT)
+	elseif buffactive.Seigan and buffactive['Third Eye'] then -- For Seigan TP Set Use Seigan Toggle --
+		equip(sets.TP.Seigan)
 		
-		elseif Armor == 'Range' then
+	elseif Armor == 'Range' then
 		equip(sets.Range)
 	elseif new == 'Engaged' then
 		equipSet = sets.TP
-		if Armor == 'Hybrid' and equipSet["Hybrid"] then
-			equipSet = equipSet["Hybrid"]
+		if Armor == 'Hybrid' and equipSet['Hybrid'] then
+			equipSet = equipSet['Hybrid']
 		end
 		if equipSet[player.equipment.main] then
 			equipSet = equipSet[player.equipment.main]
@@ -842,17 +997,17 @@ function status_change(new,old)
 		if equipSet[AccArray[AccIndex]] then
 			equipSet = equipSet[AccArray[AccIndex]]
 		end
-		if buffactive["Aftermath: Lv.3"] and equipSet["AM3"] then
-			equipSet = equipSet["AM3"]
+		if buffactive['Aftermath: Lv.3'] and equipSet['AM3'] then
+			equipSet = equipSet['AM3']
 		end
-		if buffactive.Aftermath and equipSet["AM"] then
-			equipSet = equipSet["AM"]
+		if buffactive.Aftermath and equipSet['AM'] then
+			equipSet = equipSet['AM']
 		end	
-		if buffactive.Ionis and equipSet["Ionis"] then
-			equipSet = equipSet["Ionis"]
+		if buffactive.Ionis and equipSet['Ionis'] then
+			equipSet = equipSet['Ionis']
 		end
-		if buffactive.Seigan and Seigan == 'Seigan' then -- For Seigan TP Set Use Seigan Toggle --
-			equip(set_combine(equipSet,sets.TP.Seigan))
+		if buffactive['Samurai Roll'] and equipSet['STP'] then
+			equipSet = equipSet['STP']
 		end
 		equip(equipSet)
 	else
@@ -864,26 +1019,50 @@ function status_change(new,old)
 end
 
 
-
-
 windower.register_event('tp change', function(tp)
 	if AutoFudo == 1 then
 		if not buffactive['amnesia'] then
-			if player.tp > 700 and   player.status == 'Engaged' then
+			if player.tp > 999 and   player.status == 'Engaged' then
 				windower.send_command('input /ws "Tachi: Fudo" <t>')
 			end
 		end
 	end
 		if Autows == 1 then
 		if not buffactive['amnesia'] then
-			if player.tp > 999 and   player.status == 'Engaged' then
-				windower.send_command('input /ws "Tachi: Shoha" <t>')
+			if buffactive['Aftermath: Lv.3'] then
+				if player.tp > 999 and   player.status == 'Engaged' then
+					windower.send_command('input /ws "Tachi: Fudo" <t>')
+				end
+			elseif player.tp > 2999 then
+				windower.send_command('input /ws "Tachi: Rana" <t>')
 			end
 		end
 	end	
 end)
 
 
+
+
+windower.register_event('hp change', function(hp)
+	if AutoFudo == 1 then
+		if not buffactive['amnesia'] then
+			if player.tp > 999 and   player.status == 'Engaged' then
+				windower.send_command('input /ws "Tachi: Fudo" <t>')
+			end
+		end
+	end
+		if Autows == 1 then
+		if not buffactive['amnesia'] then
+			if buffactive['Aftermath: Lv.3'] then
+				if player.tp > 999 and   player.status == 'Engaged' then
+					windower.send_command('input /ws "Tachi: Fudo" <t>')
+				end
+			elseif player.tp > 2999 then
+				windower.send_command('input /ws "Tachi: Rana" <t>')
+			end
+		end
+	end	
+end)
 
 
 function buff_change(buff,gain)
@@ -893,7 +1072,7 @@ function buff_change(buff,gain)
 			send_command('timers create "Aftermath: Lv.3" 180 down;wait 120;input /echo Aftermath: Lv.3 [WEARING OFF IN 60 SEC.];wait 30;input /echo Aftermath: Lv.3 [WEARING OFF IN 30 SEC.];wait 20;input /echo Aftermath: Lv.3 [WEARING OFF IN 10 SEC.]')
 		else
 			send_command('timers delete "Aftermath: Lv.3"')
-			add_to_chat(8,'AM3: [OFF]')
+			add_to_chat(159,'AM3: [OFF]')
 		end
 	elseif buff == 'weakness' then -- Weakness Timer Bar --
 		if gain then
@@ -1001,7 +1180,21 @@ function self_command(command)
 		status_change(player.status)
 	elseif command == 'TP' then
 		add_to_chat(158,'TP Return: ['..tostring(player.tp)..']')
+		status_change(player.status)
 	elseif command:match('^SC%d$') then
 		send_command('//'..sc_map[command])
+	elseif command == 'Fudo' then
+		if player.tp > 999 then
+			send_command('wait 0.1;input /ws "Tachi: Fudo" <t>')
+		else
+			add_to_chat(158,'Not Enough TP: [ Suckless ]')
+		end
 	end
 end
+
+
+
+
+
+
+ 
