@@ -1,6 +1,6 @@
 function get_sets()
 	
-	include('Acc.lua')
+	include('Cona-Include.lua')
 		D = 224
 		fSTR = 32.55
         attacks = 0
