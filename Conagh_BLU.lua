@@ -1,5 +1,23 @@
 function get_sets()
 	
+		include('Cona-Include.lua')
+	-- Include local Variables --
+	-- Variables for pDIF you set these in your user file --
+		D = 132
+		fSTR = 30.25 -- An Approximated value from an iLVL 130 NM ~ Tojil --
+		
+	-- Variables for the Accuracy Parser HUD --
+
+        define_user_functions()
+        options = { usePDT = false, meleeMode = 'DD', autopilot = false,
+                HUD = { x = 900, y = 100, visible = true, trendSize = 40  }
+        }
+		build_HUD()
+	
+	-- Normal File Variables --
+	
+	
+	
 	Amend										= 1
 	sets.Idle 									= {}
 	sets.Idle.index 							= {'Standard','DT'}
@@ -473,50 +491,3 @@ function self_command(command)
 		equip(sets.Idle[sets.Idle.index[Idle_ind]])
 	end
 end	
-
-
-D = 132
-fSTR = 30.25
-pDIF = 0
-total_damage = 0
-total_damage_array = L{}
-max_count = 45
-max_acc_count = 100
-total_crit = 0
-
- 
-windower.register_event('action',function (act)
-    local actor = act.actor_id
-    local category = act.category
-    local player = windower.ffxi.get_player()
-      
-    if actor == player.id and category == 1 then
-	
-        local round_hits = act.targets[1].action_count
-		
-        for i = 1,round_hits do
-			if act.targets[1].actions[i].reaction == 8 then
-				if act.targets[1].actions[i].message ~= 67 then
-				total_damage_array:append(act.targets[1].actions[i].param)
-				end
-			end
-		end
-			approximate_pdif()
-    end
-end)
- 
- 
-function approximate_pdif()
-    local total_damage = 0
-    local total_hits = math.min(max_count,total_damage_array:length())
-     
-    if total_damage_array:length() < 1 then
-        return
-    end
-     
-    for i=1,total_hits do
-        local v = total_damage_array:last(i)
-        total_damage = total_damage+v
-    end
-    pDIF = ( (total_damage/total_hits) / (D + fSTR) )
-end
