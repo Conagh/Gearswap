@@ -8,6 +8,10 @@ function get_sets()
 		
 	-- Variables for the Accuracy Parser HUD --
 
+		attacks = 0
+        hits = 0
+        trend = {}
+        trend_write_pos = 0
         define_user_functions()
         options = { usePDT = false, meleeMode = 'DD', autopilot = false,
                 HUD = { x = 900, y = 100, visible = true, trendSize = 40  }
@@ -56,27 +60,27 @@ function get_sets()
 	
 	sets.TP.Fodder								= {	ammo="Jukukik Feather",
 													head="Thur. Chapeau +1",neck="Asperity Necklace", ear1="Dudgeon earring", ear2="Heartseeker earring",
-													body="Thaumas Coat",hands="Qaaxo Mitaines",ring1="Rajas Ring",ring2="Epona's Ring",
+													body="Qaaxo Harness",hands="Qaaxo Mitaines",ring1="Rajas Ring",ring2="Epona's Ring",
 													back="Atheling Mantle",waist="Windbuffet Belt +1",legs="Iuitl Tights",feet="Battlecast Gaiters"}
 													
 	sets.TP.Normal								= { ammo="Jukukik Feather",
 													head="Whirlpool Mask",neck="Asperity Necklace", ear1="Dudgeon earring", ear2="Heartseeker earring",
-													body="Thaumas Coat",hands="Iuitl Wristbands",ring1="Rajas Ring",ring2="Epona's Ring",
+													body="Qaaxo Harness",hands="Iuitl Wristbands",ring1="Rajas Ring",ring2="Epona's Ring",
 													back="Atheling Mantle",waist="Windbuffet Belt +1",legs="Iuitl Tights",feet="Battlecast Gaiters"}
 																										
 	sets.TP.Lite								= {	ammo="Honed Tathlum",
 													head="Whirlpool Mask",neck="Asperity Necklace", ear1="Dudgeon earring", ear2="Heartseeker earring",
-													body="Thaumas Coat",hands="Aetosaur Gloves +1",ring1="Rajas Ring",ring2="Epona's Ring",
+													body="Qaaxo Harness",hands="Aetosaur Gloves +1",ring1="Rajas Ring",ring2="Epona's Ring",
 													back="Atheling Mantle",waist="Windbuffet Belt +1",legs="Iuitl Tights",feet="Battlecast Gaiters"}
 
 	sets.TP.Medium								= {	ammo="Honed Tathlum",
 													head="Whirlpool Mask",neck="Asperity Necklace", ear1="Dudgeon earring", ear2="Heartseeker earring",
-													body="Thaumas Coat",hands="Aetosaur Gloves +1",ring1="Rajas Ring",ring2="Epona's Ring",
+													body="Qaaxo Harness",hands="Aetosaur Gloves +1",ring1="Rajas Ring",ring2="Epona's Ring",
 													back="Letalis Mantle",waist="Windbuffet Belt +1",legs="Manibozho Brais",feet="Battlecast Gaiters"}
 
 	sets.TP.High								= {	ammo="Honed Tathlum",
 													head="Whirlpool Mask",neck="Asperity Necklace", ear1="Dudgeon earring", ear2="Heartseeker earring",
-													body="Thaumas Coat",hands="Aetosaur Gloves +1",ring1="Rajas Ring",ring2="Epona's Ring",
+													body="Qaaxo Harness",hands="Aetosaur Gloves +1",ring1="Rajas Ring",ring2="Epona's Ring",
 													back="Letalis Mantle",waist="Windbuffet Belt +1",legs="Manibozho Brais",feet="Assim. Charuqs +1"}
 
 	sets.TP.Full								= {ammo="Honed Tathlum",
@@ -316,7 +320,8 @@ function precast(spell)
 			equip(equipSet)
 			end
 		end
-	elseif spell.type == 'JobAbility' then
+	end
+	if spell.type == 'JobAbility' then
 	    if spell.type == 'JobAbility' and windower.ffxi.get_ability_recasts()[spell.recast_id] > 0 then
 		cancel_spell()
 		return
@@ -324,25 +329,19 @@ function precast(spell)
 		if sets.JA[spell.english] then
 			equip(sets.JA[spell.english])
 		end
-	elseif spell.type == 'Magic' then
+	end
+	if spell.type == 'Magic' then
 		if spell.skill == 'Blue Magic' then
 		equip(sets.Precast.FC['Blue Magic'])
-		elseif spell.skill == 'Ninjutsu' then
-			if string.find(spell.english,'Utsusemi') then
-				if buffactive['Copy Image (3)'] or buffactive['Copy Image (4)'] then
-					cancel_spell()
-					add_to_chat(8, spell.english .. ' Canceled: [3+ Images]')
-					return
-				else
-					equip(sets.Precast.FC['Normal'])
-				end
-			else
-			equip(sets.Precast.FC['Normal'])
-			end
-		else
-		equip(sets.Precast.FC['Normal'])
 		end
-	else
+	end
+	if string.find(spell.english, 'Utsusemi') then
+		if buffactive['Copy Image (3)'] or buffactive['Copy Image (4)'] then
+		cancel_spell()
+		add_to_chat(8, spell.english .. ' Canceled: [3+ Images]')
+		end
+		equip(sets.Precast.FC['Normal'])
+		
 	equip(sets.Precast.FC['Normal'])
 	end
 end
@@ -436,6 +435,13 @@ function midcast(spell,act)
 			end
 		end
 	end
+	if spell.type == "Ninjutsu" then
+			if string.find(spell.english,'Utsusemi') then
+				if spell.english == 'Utsusemi: Ichi' and (buffactive['Copy Image'] or buffactive['Copy Image (2)']) then
+					send_command('@wait 1.0; cancel Copy Image*')
+				end
+			end
+		end
 end
 
 function aftercast(spell)
